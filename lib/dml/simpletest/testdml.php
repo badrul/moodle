@@ -239,6 +239,7 @@ class dml_test extends UnitTestCase {
         $key = key($params);
         $this->assertEqual("<> :$key", $usql);
         $this->assertEqual($in_value, $value);
+<<<<<<< HEAD
 
         // make sure the param names are unique
         list($usql1, $params1) = $DB->get_in_or_equal(array(1,2,3), SQL_PARAMS_NAMED, 'param');
@@ -327,6 +328,16 @@ class dml_test extends UnitTestCase {
         $key = key($params);
         $this->assertEqual('<> :'.$key, $usql);
         $this->assertIdentical($value, 'onevalue');
+=======
+
+        // make sure the param names are unique
+        list($usql1, $params1) = $DB->get_in_or_equal(array(1,2,3), SQL_PARAMS_NAMED, 'param');
+        list($usql2, $params2) = $DB->get_in_or_equal(array(1,2,3), SQL_PARAMS_NAMED, 'param');
+        $params1 = array_keys($params1);
+        $params2 = array_keys($params2);
+        $common = array_intersect($params1, $params2);
+        $this->assertEqual(count($common), 0);
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
     }
 
     public function test_fix_table_names() {

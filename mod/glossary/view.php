@@ -400,7 +400,10 @@ if ($allentries) {
         $ratingoptions = new stdClass;
         $ratingoptions->context = $context;
         $ratingoptions->component = 'mod_glossary';
+<<<<<<< HEAD
         $ratingoptions->ratingarea = 'entry';
+=======
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
         $ratingoptions->items = $allentries;
         $ratingoptions->aggregate = $glossary->assessed;//the aggregation method
         $ratingoptions->scaleid = $glossary->scale;

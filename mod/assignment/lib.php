@@ -1319,6 +1319,28 @@ class assignment_base {
                     /// Calculate user status
                         $auser->status = ($auser->timemarked > 0) && ($auser->timemarked >= $auser->timemodified);
                         $picture = $OUTPUT->user_picture($auser);
+<<<<<<< HEAD
+
+                        if (empty($auser->submissionid)) {
+                            $auser->grade = -1; //no submission yet
+                        }
+
+                        if (!empty($auser->submissionid)) {
+                            $hassubmission = true;
+                        ///Prints student answer and student modified date
+                        ///attach file or print link to student answer, depending on the type of the assignment.
+                        ///Refer to print_student_answer in inherited classes.
+                            if ($auser->timemodified > 0) {
+                                $studentmodified = '<div id="ts'.$auser->id.'">'.$this->print_student_answer($auser->id)
+                                                 . userdate($auser->timemodified).'</div>';
+                            } else {
+                                $studentmodified = '<div id="ts'.$auser->id.'">&nbsp;</div>';
+                            }
+                        ///Print grade, dropdown or text
+                            if ($auser->timemarked > 0) {
+                                $teachermodified = '<div id="tt'.$auser->id.'">'.userdate($auser->timemarked).'</div>';
+
+=======
 
                         if (empty($auser->submissionid)) {
                             $auser->grade = -1; //no submission yet
@@ -1352,6 +1374,21 @@ class assignment_base {
 
                             } else {
                                 $teachermodified = '<div id="tt'.$auser->id.'">&nbsp;</div>';
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
+                                if ($final_grade->locked or $final_grade->overridden) {
+                                    $grade = '<div id="g'.$auser->id.'" class="'. $locked_overridden .'">'.$final_grade->formatted_grade.'</div>';
+                                } else if ($quickgrade) {
+                                    $attributes = array();
+                                    $attributes['tabindex'] = $tabindex++;
+                                    $menu = html_writer::select(make_grades_menu($this->assignment->grade), 'menu['.$auser->id.']', $auser->grade, array(-1=>get_string('nograde')), $attributes);
+<<<<<<< HEAD
+                                    $grade = '<div id="g'.$auser->id.'">'. $menu .'</div>';
+                                } else {
+                                    $grade = '<div id="g'.$auser->id.'">'.$this->display_grade($auser->grade).'</div>';
+                                }
+
+                            } else {
+                                $teachermodified = '<div id="tt'.$auser->id.'">&nbsp;</div>';
                                 if ($final_grade->locked or $final_grade->overridden) {
                                     $grade = '<div id="g'.$auser->id.'" class="'. $locked_overridden .'">'.$final_grade->formatted_grade.'</div>';
                                 } else if ($quickgrade) {
@@ -1367,6 +1404,17 @@ class assignment_base {
                             if ($final_grade->locked or $final_grade->overridden) {
                                 $comment = '<div id="com'.$auser->id.'">'.shorten_text(strip_tags($final_grade->str_feedback),15).'</div>';
 
+=======
+                                    $grade = '<div id="g'.$auser->id.'">'.$menu.'</div>';
+                                } else {
+                                    $grade = '<div id="g'.$auser->id.'">'.$this->display_grade($auser->grade).'</div>';
+                                }
+                            }
+                        ///Print Comment
+                            if ($final_grade->locked or $final_grade->overridden) {
+                                $comment = '<div id="com'.$auser->id.'">'.shorten_text(strip_tags($final_grade->str_feedback),15).'</div>';
+
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
                             } else if ($quickgrade) {
                                 $comment = '<div id="com'.$auser->id.'">'
                                          . '<textarea tabindex="'.$tabindex++.'" name="submissioncomment['.$auser->id.']" id="submissioncomment'
@@ -1408,6 +1456,7 @@ class assignment_base {
                         } else {
                             $auser->status = 1;
                         }
+<<<<<<< HEAD
 
                         $buttontext = ($auser->status == 1) ? $strupdate : $strgrade;
 
@@ -1429,6 +1478,29 @@ class assignment_base {
                                 $outcomes .= '<div class="outcome"><label>'.$outcome->name.'</label>';
                                 $options = make_grades_menu(-$outcome->scaleid);
 
+=======
+
+                        $buttontext = ($auser->status == 1) ? $strupdate : $strgrade;
+
+                        ///No more buttons, we use popups ;-).
+                        $popup_url = '/mod/assignment/submissions.php?id='.$this->cm->id
+                                   . '&amp;userid='.$auser->id.'&amp;mode=single'.'&amp;filter='.$filter.'&amp;offset='.$offset++;
+
+                        $button = $OUTPUT->action_link($popup_url, $buttontext);
+
+                        $status  = '<div id="up'.$auser->id.'" class="s'.$auser->status.'">'.$button.'</div>';
+
+                        $finalgrade = '<span id="finalgrade_'.$auser->id.'">'.$final_grade->str_grade.'</span>';
+
+                        $outcomes = '';
+
+                        if ($uses_outcomes) {
+
+                            foreach($grading_info->outcomes as $n=>$outcome) {
+                                $outcomes .= '<div class="outcome"><label>'.$outcome->name.'</label>';
+                                $options = make_grades_menu(-$outcome->scaleid);
+
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
                                 if ($outcome->grades[$auser->id]->locked or !$quickgrade) {
                                     $options[0] = get_string('nooutcome', 'grades');
                                     $outcomes .= ': <span id="outcome_'.$n.'_'.$auser->id.'">'.$options[$outcome->grades[$auser->id]->grade].'</span>';

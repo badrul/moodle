@@ -706,6 +706,154 @@ class course_enrolment_users_table extends course_enrolment_table {
     protected static $sortablefields = array('firstname', 'lastname', 'email', 'lastaccess');
 
     /**
+<<<<<<< HEAD
+=======
+     * Returns a button to enrol cohorts or thier users
+     *
+     * @staticvar int $count
+     * @return single_button|false
+     */
+    public function get_cohort_enrolment_control() {
+        static $count = 0;
+
+        // First make sure that cohorts is enabled
+        $plugins = $this->manager->get_enrolment_plugins();
+        if (!array_key_exists('cohort', $plugins)) {
+            return false;
+        }
+        $course = $this->manager->get_course();
+        if (!$plugins['cohort']->get_newinstance_link($course->id)) {
+            // user can not see any cohort === can not use this
+            return false;
+        }
+        $count ++;
+        $cohorturl = new moodle_url('/enrol/cohort/addinstance.php', array('id'=>$course->id));
+        $control = new single_button($cohorturl, get_string('enrolcohort', 'enrol'), 'get');
+        $control->class = 'singlebutton enrolcohortbutton instance'.$count;
+        $control->formid = 'manuallyenrol_single_'+$count;
+        if ($count == 1) {
+            $this->moodlepage->requires->strings_for_js(array('enrol','synced','enrolcohort','enrolcohortusers'), 'enrol');
+            $this->moodlepage->requires->string_for_js('assignroles', 'role');
+            $this->moodlepage->requires->string_for_js('cohort', 'cohort');
+            $this->moodlepage->requires->string_for_js('users', 'moodle');
+
+            $hasmanualinstance = false;
+            // No point showing this at all if the user cant manually enrol users
+            if (has_capability('enrol/manual:manage', $this->manager->get_context())) {
+                // Make sure manual enrolments instance exists
+                $instances = $this->manager->get_enrolment_instances();
+                foreach ($instances as $instance) {
+                    if ($instance->enrol == 'manual') {
+                        $hasmanualinstance = true;
+                        break;
+                    }
+                }
+            }
+
+            $modules = array('moodle-enrol-quickcohortenrolment', 'moodle-enrol-quickcohortenrolment-skin');
+            $function = 'M.enrol.quickcohortenrolment.init';
+            $arguments = array(
+                'courseid'=>$course->id,
+                'ajaxurl'=>'/enrol/ajax.php',
+                'url'=>$this->moodlepage->url->out(false),
+                'manualEnrolment'=>$hasmanualinstance);
+            $this->moodlepage->requires->yui_module($modules, $function, array($arguments));
+        }
+        return $control;
+    }
+
+    /**
+     * Gets the enrolment selector control for this table and initialises its
+     * JavaScript
+     *
+     * @return single_button|url_select
+     */
+    public function get_enrolment_selector() {
+        global $CFG;
+        static $count = 0;
+
+        $instances  = $this->manager->get_enrolment_instances();
+        $plugins    = $this->manager->get_enrolment_plugins();
+        $manuals    = array();
+        // print enrol link or selection
+        $links = array();
+        foreach($instances as $instance) {
+            $plugin = $plugins[$instance->enrol];
+            if ($link = $plugin->get_manual_enrol_link($instance)) {
+                $links[$instance->id] = $link;
+                $manuals[$instance->id] = $instance;
+            }
+        }
+        if (!empty($links)) {
+            $arguments = array();
+            $count ++;
+            if (count($links) == 1) {
+                $control = new single_button(reset($links), get_string('enrolusers', 'enrol_manual'), 'get');
+                $control->class = 'singlebutton enrolusersbutton instance'.$count;
+                $control->formid = 'manuallyenrol_single_'+$count;
+                $arguments[] = array('id'=>key($links), 'name'=>$plugins[$instances[key($links)]->enrol]->get_instance_name($instances[key($links)]));
+            } else if (count($links) > 1) {
+                $inames     = $this->manager->get_enrolment_instance_names();
+                $options = array();
+                foreach ($links as $i=>$link) {
+                    $options[$link->out(false)] = $inames[$i];
+                    $arguments[] = array('id'=>$i, 'name'=>$plugins[$instances[$i]->enrol]->get_instance_name($instances[$i]));
+                }
+                $control = new url_select($options, '', array(''=>get_string('enrolusers', 'enrol_manual').'...'));
+                $control->class = 'singlebutton enrolusersbutton instance'.$count;
+                $control->formid = 'manuallyenrol_select_'+$count;
+            }
+
+            $course = $this->manager->get_course();
+            $timeformat = get_string('strftimedatefullshort');
+            $today = time();
+            $today = make_timestamp(date('Y', $today), date('m', $today), date('d', $today), 0, 0, 0);
+            $startdateoptions = array();
+            if ($course->startdate > 0) {
+                $startdateoptions[2] = get_string('coursestart') . ' (' . userdate($course->startdate, $timeformat) . ')';
+            }
+            $startdateoptions[3] = get_string('today') . ' (' . userdate($today, $timeformat) . ')' ;
+
+            if ($count == 1) {
+                $instance = reset($manuals);
+                $this->moodlepage->requires->strings_for_js(array(
+                    'ajaxoneuserfound',
+                    'ajaxxusersfound',
+                    'ajaxnext25',
+                    'enrol',
+                    'enrolmentoptions',
+                    'enrolusers',
+                    'errajaxfailedenrol',
+                    'errajaxsearch',
+                    'none',
+                    'usersearch',
+                    'unlimitedduration',
+                    'startdatetoday',
+                    'durationdays',
+                    'enrolperiod',
+                    'finishenrollingusers',
+                    'recovergrades'), 'enrol');
+                $this->moodlepage->requires->string_for_js('assignroles', 'role');
+                $this->moodlepage->requires->string_for_js('startingfrom', 'moodle');
+
+                $modules = array('moodle-enrol-enrolmentmanager', 'moodle-enrol-enrolmentmanager-skin');
+                $function = 'M.enrol.enrolmentmanager.init';
+                $arguments = array(
+                    'instances'=>$arguments,
+                    'courseid'=>$course->id,
+                    'ajaxurl'=>'/enrol/ajax.php',
+                    'url'=>$this->moodlepage->url->out(false),
+                    'optionsStartDate'=>$startdateoptions,
+                    'defaultRole'=>$instance->roleid,
+                    'disableGradeHistory'=>$CFG->disablegradehistory);
+                $this->moodlepage->requires->yui_module($modules, $function, array($arguments));
+            }
+            return $control;
+        }
+        return null;
+    }
+    /**
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
      * Gets the enrolment type filter control for this table
      *
      * @return single_select

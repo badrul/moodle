@@ -63,6 +63,28 @@ if ($action) {
 
     switch ($action) {
         /**
+<<<<<<< HEAD
+=======
+         * Unenrols a user from this course (including removing all of their grades)
+         */
+        case 'unenrol':
+            $ue = $DB->get_record('user_enrolments', array('id'=>required_param('ue', PARAM_INT)), '*', MUST_EXIST);
+            list ($instance, $plugin) = $manager->get_user_enrolment_components($ue);
+            if ($instance && $plugin && $plugin->allow_unenrol($instance) && has_capability("enrol/$instance->enrol:unenrol", $manager->get_context())) {
+                if ($confirm && $manager->unenrol_user($ue)) {
+                    redirect($PAGE->url);
+                } else {
+                    $user = $DB->get_record('user', array('id'=>$ue->userid), '*', MUST_EXIST);
+                    $yesurl = new moodle_url($PAGE->url, array('action'=>'unenrol', 'ue'=>$ue->id, 'confirm'=>1, 'sesskey'=>sesskey()));
+                    $message = get_string('unenrolconfirm', 'enrol', array('user'=>fullname($user, true), 'course'=>format_string($course->fullname)));
+                    $pagetitle = get_string('unenrol', 'enrol');
+                    $pagecontent = $OUTPUT->confirm($message, $yesurl, $PAGE->url);
+                }
+                $actiontaken = true;
+            }
+            break;
+        /**
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
          * Removes a role from the user with this course
          */
         case 'unassign':
@@ -143,6 +165,30 @@ if ($action) {
                 $actiontaken = true;
             }
             break;
+<<<<<<< HEAD
+=======
+        /**
+         * Edits the details of a users enrolment in the course
+         */
+        case 'edit':
+            $ue = $DB->get_record('user_enrolments', array('id'=>required_param('ue', PARAM_INT)), '*', MUST_EXIST);
+
+            //Only show the edit form if the user has the appropriate capability
+            list($instance, $plugin) = $manager->get_user_enrolment_components($ue);
+            if ($instance && $plugin && $plugin->allow_manage($instance) && has_capability("enrol/$instance->enrol:manage", $manager->get_context())) {
+                $user = $DB->get_record('user', array('id'=>$ue->userid), '*', MUST_EXIST);
+                $mform = new enrol_users_edit_form(NULL, array('user'=>$user, 'course'=>$course, 'ue'=>$ue));
+                $mform->set_data($PAGE->url->params());
+                $data = $mform->get_data();
+                if ($mform->is_cancelled() || ($data && $manager->edit_enrolment($ue, $data))) {
+                    redirect($PAGE->url);
+                } else {
+                    $pagetitle = fullname($user);
+                }
+                $actiontaken = true;
+            }
+            break;
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
     }
 
     // If we took an action display we need to display something special.

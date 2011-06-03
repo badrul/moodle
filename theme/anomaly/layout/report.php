@@ -40,11 +40,19 @@ echo $OUTPUT->doctype() ?>
             }
             echo $PAGE->headingmenu
         ?></div><?php } ?>
+<<<<<<< HEAD
         
         <?php if ($hascustommenu) { ?>
  	<div id="custommenu"><?php echo $custommenu; ?></div>
 		<?php } ?>
         
+=======
+
+        <?php if ($hascustommenu) { ?>
+        <div id="custommenu"><?php echo $custommenu; ?></div>
+        <?php } ?>
+
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
         <?php if ($hasnavbar) { ?>
             <div class="navbar clearfix">
                 <div class="breadcrumb"><?php echo $OUTPUT->navbar(); ?></div>

@@ -163,6 +163,7 @@ if ($posts) {
         // load ratings
         if ($forum->assessed != RATING_AGGREGATE_NONE) {
             $ratingoptions->context = $forum->context;
+            $ratingoptions->component = 'mod_forum';
             $ratingoptions->items = array($post);
             $ratingoptions->aggregate = $forum->assessed;//the aggregation method
             $ratingoptions->scaleid = $forum->scale;

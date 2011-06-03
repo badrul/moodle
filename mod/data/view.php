@@ -672,7 +672,10 @@ if ($showactivity) {
                     $ratingoptions = new stdClass;
                     $ratingoptions->context = $context;
                     $ratingoptions->component = 'mod_data';
+<<<<<<< HEAD
                     $ratingoptions->ratingarea = 'entry';
+=======
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
                     $ratingoptions->items = $records;
                     $ratingoptions->aggregate = $data->assessed;//the aggregation method
                     $ratingoptions->scaleid = $data->scale;

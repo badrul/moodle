@@ -52,11 +52,16 @@ class rating implements renderable {
 
     /**
      * The component using ratings. For example "mod_forum"
+<<<<<<< HEAD
      * @var string
+=======
+     * @var component
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
      */
     public $component;
 
     /**
+<<<<<<< HEAD
      * The rating area to associate this rating with.
      * This allows a plugin to rate more than one thing by specifying different rating areas.
      * @var string
@@ -64,6 +69,8 @@ class rating implements renderable {
     public $ratingarea = null;
 
     /**
+=======
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
      * The id of the item (forum post, glossary item etc) being rated
      * @var int
      */
@@ -88,6 +95,7 @@ class rating implements renderable {
     public $settings;
 
     /**
+<<<<<<< HEAD
      * The Id of this rating within the rating table.
      * This is only set if the rating already exists
      * @var int
@@ -171,6 +179,23 @@ class rating implements renderable {
         if (isset($options->rating)) {
             $this->rating = $options->rating;
         }
+=======
+    * Constructor.
+    * @param object $options {
+    *            context => context context to use for the rating [required]
+    *            component => component using ratings ie mod_forum [required]
+    *            itemid  => int the id of the associated item (forum post, glossary item etc) [required]
+    *            scaleid => int The scale in use when the rating was submitted [required]
+    *            userid  => int The id of the user who submitted the rating [required]
+    * }
+    */
+    public function __construct($options) {
+        $this->context = $options->context;
+        $this->component = $options->component;
+        $this->itemid = $options->itemid;
+        $this->scaleid = $options->scaleid;
+        $this->userid = $options->userid;
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
     }
 
     /**
@@ -194,7 +219,10 @@ class rating implements renderable {
         $ratingoptions = new stdClass;
         $ratingoptions->context = $this->context;
         $ratingoptions->component = $this->component;
+<<<<<<< HEAD
         $ratingoptions->ratingarea = $this->ratingarea;
+=======
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
         $ratingoptions->items = $items;
         $ratingoptions->aggregate = RATING_AGGREGATE_AVERAGE;//we dont actually care what aggregation method is applied
         $ratingoptions->scaleid = $this->scaleid;
@@ -493,6 +521,7 @@ class rating_manager {
     }
 
     /**
+<<<<<<< HEAD
      * Adds rating objects to an array of items (forum posts, glossary entries etc)
      * Rating objects are available at $item->rating
      * @param stdClass $options {
@@ -508,6 +537,22 @@ class rating_manager {
      *            assesstimefinish => int only allow rating of items created before this timestamp [optional]
      * @return array the array of items with their ratings attached at $items[0]->rating
      */
+=======
+    * Adds rating objects to an array of items (forum posts, glossary entries etc)
+    * Rating objects are available at $item->rating
+    * @param object $options {
+    *            context => context the context in which the ratings exists [required]
+    *            component => the component name ie mod_forum [required]
+    *            items  => array an array of items such as forum posts or glossary items. They must have an 'id' member ie $items[0]->id[required]
+    *            aggregate    => int what aggregation method should be applied. RATING_AGGREGATE_AVERAGE, RATING_AGGREGATE_MAXIMUM etc [required]
+    *            scaleid => int the scale from which the user can select a rating [required]
+    *            userid => int the id of the current user [optional]
+    *            returnurl => string the url to return the user to after submitting a rating. Can be left null for ajax requests [optional]
+    *            assesstimestart => int only allow rating of items created after this timestamp [optional]
+    *            assesstimefinish => int only allow rating of items created before this timestamp [optional]
+    * @return array the array of items with their ratings attached at $items[0]->rating
+    */
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
     public function get_ratings($options) {
         global $DB, $USER;
 
@@ -657,9 +702,16 @@ class rating_manager {
             throw new coding_exception('The scaleid option is now a required option when generating a rating settings object.');
         }
 
+<<<<<<< HEAD
         // settings that are common to all ratings objects in this context
         $settings = new stdClass;
         $settings->scale             = $this->generate_rating_scale_object($options->scaleid); // the scale to use now
+=======
+        //should $settings and $settings->permissions be declared as proper classes?
+        $settings = new stdclass(); //settings that are common to all ratings objects in this context
+        $settings->component =$options->component;
+        $settings->scale = $scaleobj; //the scale to use now
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
         $settings->aggregationmethod = $options->aggregate;
         $settings->assesstimestart   = null;
         $settings->assesstimefinish  = null;
@@ -675,6 +727,7 @@ class rating_manager {
             $settings->returnurl = $options->returnurl;
         }
 
+<<<<<<< HEAD
         // check site capabilities
         $settings->permissions = new stdClass;
         $settings->permissions->view    = has_capability('moodle/rating:view', $options->context); // can view the aggregate of ratings of their own items
@@ -689,6 +742,54 @@ class rating_manager {
         $settings->pluginpermissions->viewany = $pluginpermissionsarray['viewany'];
         $settings->pluginpermissions->viewall = $pluginpermissionsarray['viewall'];
         $settings->pluginpermissions->rate    = $pluginpermissionsarray['rate'];
+=======
+        //check site capabilities
+        $settings->permissions = new stdclass();
+        $settings->permissions->view = has_capability('moodle/rating:view',$options->context);//can view the aggregate of ratings of their own items
+        $settings->permissions->viewany = has_capability('moodle/rating:viewany',$options->context);//can view the aggregate of ratings of other people's items
+        $settings->permissions->viewall = has_capability('moodle/rating:viewall',$options->context);//can view individual ratings
+        $settings->permissions->rate = has_capability('moodle/rating:rate',$options->context);//can submit ratings
+
+        //check module capabilities (mostly for backwards compatability with old modules that previously implemented their own ratings)
+        $pluginpermissionsarray = $this->get_plugin_permissions_array($options->context->id, $options->component);
+
+        $settings->pluginpermissions = new stdclass();
+        $settings->pluginpermissions->view = $pluginpermissionsarray['view'];
+        $settings->pluginpermissions->viewany = $pluginpermissionsarray['viewany'];
+        $settings->pluginpermissions->viewall = $pluginpermissionsarray['viewall'];
+        $settings->pluginpermissions->rate = $pluginpermissionsarray['rate'];
+
+        $rating = null;
+        $ratingoptions = new stdclass();
+        $ratingoptions->context = $options->context;//context is common to all ratings in the set
+        $ratingoptions->component = $options->component;
+        foreach($options->items as $item) {
+            $rating = null;
+            //match the item with its corresponding rating
+            foreach($ratingsrecords as $rec) {
+                if( $item->id==$rec->itemid ) {
+                    //Note: rec->scaleid = the id of scale at the time the rating was submitted
+                    //may be different from the current scale id
+                    $ratingoptions->itemid = $item->id;
+                    $ratingoptions->scaleid = $rec->scaleid;
+                    $ratingoptions->userid = $rec->userid;
+
+                    $rating = new rating($ratingoptions);
+                    $rating->id         = $rec->id;    //unset($rec->id);
+                    $rating->aggregate  = $rec->aggrrating; //unset($rec->aggrrating);
+                    $rating->count      = $rec->numratings; //unset($rec->numratings);
+                    $rating->rating     = $rec->usersrating; //unset($rec->usersrating);
+                    $rating->itemtimecreated = $this->get_item_time_created($item);
+
+                    break;
+                }
+            }
+            //if there are no ratings for this item
+            if( !$rating ) {
+                $ratingoptions->itemid = $item->id;
+                $ratingoptions->scaleid = null;
+                $ratingoptions->userid = null;
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
 
         return $settings;
     }
@@ -929,6 +1030,7 @@ class rating_manager {
     }
 
     /**
+<<<<<<< HEAD
      * Looks for a callback like forum_rating_permissions() to retrieve permissions from the plugin whose items are being rated
      * @param int $contextid The current context id
      * @param string component the name of the component that is using ratings ie 'mod_forum'
@@ -936,11 +1038,23 @@ class rating_manager {
      * @return array rating related permissions
      */
     public function get_plugin_permissions_array($contextid, $component, $ratingarea) {
+=======
+    * Looks for a callback like forum_rating_permissions() to retrieve permissions from the plugin whose items are being rated
+    * @param int $contextid The current context id
+    * @param string component the name of the component that is using ratings ie 'mod_forum'
+    * @return array rating related permissions
+    */
+    public function get_plugin_permissions_array($contextid, $component=null) {
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
         $pluginpermissionsarray = null;
         $defaultpluginpermissions = array('rate'=>false,'view'=>false,'viewany'=>false,'viewall'=>false);//deny by default
         if (!empty($component)) {
             list($type, $name) = normalize_component($component);
+<<<<<<< HEAD
             $pluginpermissionsarray = plugin_callback($type, $name, 'rating', 'permissions', array($contextid, $component, $ratingarea), $defaultpluginpermissions);
+=======
+            $pluginpermissionsarray = plugin_callback($type, $name, 'rating', 'permissions', array($contextid), $defaultpluginpermissions);
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
         } else {
             $pluginpermissionsarray = $defaultpluginpermissions;
         }
@@ -951,15 +1065,20 @@ class rating_manager {
      * Validates a submitted rating
      * @param array $params submitted data
      *            context => object the context in which the rated items exists [required]
+<<<<<<< HEAD
      *            component => The component the rating belongs to [required]
      *            ratingarea => The ratingarea the rating is associated with [required]
      *            itemid => int the ID of the object being rated [required]
+=======
+     *            itemid => int the ID of the object being rated
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
      *            scaleid => int the scale from which the user can select a rating. Used for bounds checking. [required]
      *            rating => int the submitted rating
      *            rateduserid => int the id of the user whose items have been rated. NOT the user who submitted the ratings. 0 to update all. [required]
      *            aggregation => int the aggregation method to apply when calculating grades ie RATING_AGGREGATE_AVERAGE [optional]
      * @return boolean true if the rating is valid. False if callback wasnt found and will throw rating_exception if rating is invalid
      */
+<<<<<<< HEAD
     public function check_rating_is_valid($params) {
 
         if (!isset($params['context'])) {
@@ -1014,6 +1133,22 @@ class rating_manager {
 
         $this->javascriptinitialised = true;
         return true;
+=======
+    public function check_rating_is_valid($component, $params) {
+        list($plugintype, $pluginname) = normalize_component($component);
+
+        //this looks for a function like forum_rating_is_valid() in mod_forum lib.php
+        //wrapping the params array in another array as call_user_func_array() expands arrays into multiple arguments
+        $isvalid = plugin_callback($plugintype, $pluginname, 'rating', 'validate', array($params), null);
+
+        //if null then the callback doesn't exist
+        if ($isvalid === null) {
+            $isvalid = false;
+            debugging('plugin rating_add() function not found');
+        }
+
+        return $isvalid;
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
     }
 
     /**

@@ -101,6 +101,60 @@ switch ($action) {
         }
         $outcome->success = true;
         break;
+<<<<<<< HEAD
+=======
+
+    case 'enrol':
+        $enrolid = required_param('enrolid', PARAM_INT);
+        $userid = required_param('userid', PARAM_INT);
+
+        $roleid = optional_param('role', null, PARAM_INT);
+        $duration = optional_param('duration', 0, PARAM_INT);
+        $startdate = optional_param('startdate', 0, PARAM_INT);
+        $recovergrades = optional_param('recovergrades', 0, PARAM_INT);
+
+        if (empty($roleid)) {
+            $roleid = null;
+        }
+
+        switch($startdate) {
+            case 2:
+                $timestart = $course->startdate;
+                break;
+            case 3:
+            default:
+                $today = time();
+                $today = make_timestamp(date('Y', $today), date('m', $today), date('d', $today), 0, 0, 0);
+                $timestart = $today;
+                break;
+        }
+        if ($duration <= 0) {
+            $timeend = 0;
+        } else {
+            $timeend = $timestart + ($duration*24*60*60);
+        }
+
+        $user = $DB->get_record('user', array('id'=>$userid), '*', MUST_EXIST);
+        $instances = $manager->get_enrolment_instances();
+        $plugins = $manager->get_enrolment_plugins();
+        if (!array_key_exists($enrolid, $instances)) {
+            throw new enrol_ajax_exception('invalidenrolinstance');
+        }
+        $instance = $instances[$enrolid];
+        $plugin = $plugins[$instance->enrol];
+        if ($plugin->allow_enrol($instance) && has_capability('enrol/'.$plugin->get_name().':enrol', $context)) {
+            $plugin->enrol_user($instance, $user->id, $roleid, $timestart, $timeend);
+            if ($recovergrades) {
+                require_once($CFG->libdir.'/gradelib.php');
+                grade_recover_history_grades($user->id, $instance->courseid);
+            }
+        } else {
+            throw new enrol_ajax_exception('enrolnotpermitted');
+        }
+        $outcome->success = true;
+        break;
+
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
     default:
         throw new enrol_ajax_exception('unknowajaxaction');
 }

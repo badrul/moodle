@@ -1451,9 +1451,49 @@ class core_renderer extends renderer_base {
         }
 
         $formstart = null;
+<<<<<<< HEAD
         // if the item doesn't belong to the current user, the user has permission to rate
         // and we're within the assessable period
         if ($rating->user_can_rate()) {
+=======
+        //if the item doesn't belong to the current user, the user has permission to rate
+        //and we're within the assessable period
+        if ($rating->itemuserid!=$USER->id
+            && $rating->settings->permissions->rate
+            && $rating->settings->pluginpermissions->rate
+            && $inassessablewindow) {
+
+            //start the rating form
+            $formstart = html_writer::start_tag('form',
+                array('id'=>"postrating{$rating->itemid}", 'class'=>'postratingform', 'method'=>'post', 'action'=>"{$CFG->wwwroot}/rating/rate.php"));
+
+            $formstart .= html_writer::start_tag('div', array('class'=>'ratingform'));
+
+            //add the hidden inputs
+
+            $attributes = array('type'=>'hidden', 'class'=>'ratinginput', 'name'=>'contextid', 'value'=>$rating->context->id);
+            $formstart .= html_writer::empty_tag('input', $attributes);
+
+            $attributes['name'] = 'component';
+            $attributes['value'] = $rating->settings->component;
+            $formstart .= html_writer::empty_tag('input', $attributes);
+
+            $attributes['name'] = 'itemid';
+            $attributes['value'] = $rating->itemid;
+            $formstart .= html_writer::empty_tag('input', $attributes);
+
+            $attributes['name'] = 'scaleid';
+            $attributes['value'] = $rating->settings->scale->id;
+            $formstart .= html_writer::empty_tag('input', $attributes);
+
+            $attributes['name'] = 'returnurl';
+            $attributes['value'] = $rating->settings->returnurl;
+            $formstart .= html_writer::empty_tag('input', $attributes);
+
+            $attributes['name'] = 'rateduserid';
+            $attributes['value'] = $rating->itemuserid;
+            $formstart .= html_writer::empty_tag('input', $attributes);
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
 
             $rateurl = $rating->get_rate_url();
             $inputs = $rateurl->params();
