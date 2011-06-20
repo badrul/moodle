@@ -1110,3 +1110,14 @@ $string['xmlrpcrecommended'] = 'The xmlrpc extension is needed for hub communica
 $string['xmlstrictheaders'] = 'XML strict headers';
 $string['yuicomboloading'] = 'YUI combo loading';
 $string['ziprequired'] = 'The Zip PHP extension is now required by Moodle, info-ZIP binaries or PclZip library are not used anymore.';
+
+//added
+$string['akpkreport']='AKPK Reports';
+$string['gender']='Gender';
+$string['maritalstatus']='Marital Status';
+$string['income']='Monthly Income';
+$string['qualification']='Qualification';
+$string['sitestats']='Site Statistics';
+$string['completion']='POWER! Course Completion';
+$string['age']='Age';
+$string['loan']='Loan Taken';

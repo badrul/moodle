@@ -54,7 +54,6 @@ if ($start !== 0) {
 }
 $PAGE->set_url($url);
 $PAGE->set_pagelayout('report');
-
 require_login($course);
 
 // Check basic permission
@@ -101,7 +100,7 @@ if ($total) {
         implode(' AND ', $where),
         $where_params,
         $group,
-        $firstnamesort ? 'u.firstname ASC' : 'u.lastname ASC',
+        'u.firstname ASC',
         $csv ? 0 : COMPLETION_REPORT_PAGE,
         $csv ? 0 : $start
     );
@@ -163,7 +162,7 @@ if (strlen($sort)) {
 $link .= '&amp;start=';
 
 // Build the the page by Initial bar
-$initials = array('first', 'last');
+$initials = array('first');
 $alphabet = explode(',', get_string('alphabet', 'langconfig'));
 
 $pagingbar = '';
@@ -250,12 +249,10 @@ if(!$csv) {
     print '<th scope="col" class="completion-sortchoice">';
     if($firstnamesort) {
         print
-            get_string('firstname').' / <a href="./?course='.$course->id.'">'.
-            get_string('lastname').'</a>';
+            get_string('firstname').' / <a href="./?course='.$course->id.'">';
     } else {
         print '<a href="./?course='.$course->id.'&amp;sort=firstname">'.
-            get_string('firstname').'</a> / '.
-            get_string('lastname');
+            get_string('firstname');
     }
     print '</th>';
 

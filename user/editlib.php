@@ -86,23 +86,21 @@ function useredit_shared_definition(&$mform, $editoroptions = null) {
     useredit_load_preferences($user, false);
 
     $strrequired = get_string('required');
-
+	
     $nameordercheck = new stdClass();
     $nameordercheck->firstname = 'a';
     $nameordercheck->lastname  = 'b';
+	
+	$mform->addElement('hidden', 'lastname',  '&nbsp;');
+	
     if (fullname($nameordercheck) == 'b a' ) {  // See MDL-4325
-        $mform->addElement('text', 'lastname',  get_string('lastname'),  'maxlength="100" size="30"');
         $mform->addElement('text', 'firstname', get_string('firstname'), 'maxlength="100" size="30"');
     } else {
         $mform->addElement('text', 'firstname', get_string('firstname'), 'maxlength="100" size="30"');
-        $mform->addElement('text', 'lastname',  get_string('lastname'),  'maxlength="100" size="30"');
     }
 
     $mform->addRule('firstname', $strrequired, 'required', null, 'client');
     $mform->setType('firstname', PARAM_NOTAGS);
-
-    $mform->addRule('lastname', $strrequired, 'required', null, 'client');
-    $mform->setType('lastname', PARAM_NOTAGS);
 
     // Do not show email field if change confirmation is pending
     if (!empty($CFG->emailchangeconfirmation) and !empty($user->preference_newemail)) {
@@ -114,7 +112,7 @@ function useredit_shared_definition(&$mform, $editoroptions = null) {
         $mform->addElement('text', 'email', get_string('email'), 'maxlength="100" size="30"');
         $mform->addRule('email', $strrequired, 'required', null, 'client');
     }
-
+/*
     $choices = array();
     $choices['0'] = get_string('emaildisplayno');
     $choices['1'] = get_string('emaildisplayyes');
@@ -190,21 +188,25 @@ function useredit_shared_definition(&$mform, $editoroptions = null) {
     $mform->addElement('select', 'screenreader', get_string('screenreaderuse'), $choices);
     $mform->setDefault('screenreader', 0);
     $mform->addHelpButton('screenreader', 'screenreaderuse');
-
-    $mform->addElement('text', 'city', get_string('city'), 'maxlength="120" size="21"');
+	
+	$mform->addElement('text', 'city', get_string('city'), 'maxlength="120" size="21"');
     $mform->setType('city', PARAM_MULTILANG);
     $mform->addRule('city', $strrequired, 'required', null, 'client');
     if (!empty($CFG->defaultcity)) {
         $mform->setDefault('city', $CFG->defaultcity);
     }
-
-    $choices = get_string_manager()->get_list_of_countries();
+	
+	$choices = get_string_manager()->get_list_of_countries();
     $choices= array(''=>get_string('selectacountry').'...') + $choices;
     $mform->addElement('select', 'country', get_string('selectacountry'), $choices);
     $mform->addRule('country', $strrequired, 'required', null, 'client');
     if (!empty($CFG->country)) {
         $mform->setDefault('country', $CFG->country);
     }
+*/
+    
+
+    
 
     $choices = get_list_of_timezones();
     $choices['99'] = get_string('serverlocaltime');
@@ -249,7 +251,7 @@ function useredit_shared_definition(&$mform, $editoroptions = null) {
         $mform->setType('imagealt', PARAM_MULTILANG);
 
     }
-
+/*
     if (!empty($CFG->usetags) and empty($USER->newadminuser)) {
         $mform->addElement('header', 'moodle_interests', get_string('interests'));
         $mform->addElement('tags', 'interests', get_string('interestslist'), array('display' => 'noofficial'));
@@ -294,7 +296,7 @@ function useredit_shared_definition(&$mform, $editoroptions = null) {
 
     $mform->addElement('text', 'address', get_string('address'), 'maxlength="70" size="25"');
     $mform->setType('address', PARAM_MULTILANG);
-
+*/
 
 }
 

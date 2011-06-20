@@ -6,6 +6,9 @@
     require_once($CFG->dirroot.'/mod/scorm/locallib.php');
     require_once($CFG->libdir . '/completionlib.php');
 
+	// force the activity to show without site blocks (navigation, etc)
+    $PAGE->blocks->show_only_fake_blocks();
+
     //
     // Checkin' script parameters
     //
@@ -15,7 +18,7 @@
     $mode = optional_param('mode', 'normal', PARAM_ALPHA); // navigation mode
     $currentorg = optional_param('currentorg', '', PARAM_RAW); // selected organization
     $newattempt = optional_param('newattempt', 'off', PARAM_ALPHA); // the user request to start a new attempt
-
+	$reload = optional_param('reload', '', PARAM_INT);
     //IE 6 Bug workaround
     if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 6') !== false && ini_get('zlib.output_compression') == 'On') {
         ini_set('zlib.output_compression', 'Off');
@@ -71,7 +74,12 @@
     $pagetitle = strip_tags("$course->shortname: ".format_string($scorm->name));
     $PAGE->set_title($pagetitle);
     $PAGE->set_heading($course->fullname);
+?>
 
+
+ <script src="<?php echo new moodle_url('/mod/scorm/yahooconnection.js');?>"></script>
+
+<?php
     if (!$cm->visible and !has_capability('moodle/course:viewhiddenactivities', get_context_instance(CONTEXT_COURSE,$course->id))) {
         echo $OUTPUT->header();
         notice(get_string("activityiscurrentlyhidden"));
@@ -145,7 +153,6 @@
     $SESSION->scorm_status = 'Not Initialized';
     $SESSION->scorm_mode = $mode;
     $SESSION->scorm_attempt = $attempt;
-
     //
     // Print the page header
     //
@@ -154,7 +161,8 @@
         $bodyscript = 'onunload="main.close();"';
     }
 
-    $exitlink = '<a href="'.$CFG->wwwroot.'/course/view.php?id='.$scorm->course.'" title="'.$strexit.'">'.$strexit.'</a> ';
+    $exitlink = '<form action="'.$CFG->wwwroot.'/course/view.php"><input type="hidden" name="id" value="'.$scorm->course.'"/> <input style="background-color:red" type="submit" value="'.$strexit.'"/></form>
+	';
 
     $PAGE->set_button($exitlink);
 
@@ -175,8 +183,47 @@
     $PAGE->requires->string_for_js('popupsblocked', 'scorm');
 
     $name = false;
-
+		
 ?>
+<table style="margin:auto;">
+	<tr>
+		<?php
+        if (($sco->previd != 0) && (!isset($sco->previous) || $sco->previous == 0)) {
+			// Print the prev LO button
+		?>
+			<td> 
+				<form id="formnext" method="post" action="<?php echo new moodle_url('/mod/scorm/player.php');?>">
+					<input type="hidden" name="mode" value="<?php echo $mode;?>">
+					<input type="hidden" name="scoid" value="<?php echo $sco->previd;?>">
+					<input type="hidden" name="cm" value="<?php echo $cm->id;?>">
+					<input type="hidden" name="currentorg" value="<?php echo $currentorg;?>">
+					<input type="hidden" name="reload" value="1">
+					<input class="submit" type="submit" value="<?php echo get_string('prev', 'scorm');?>">
+				</form>
+			</td>
+		<?php
+		}
+	
+		if (($sco->nextid != 0) && (!isset($sco->next) || $sco->next == 0)) {
+			// Print the next LO button
+		?>	
+			<td>
+				<form id="formnext" method="post" action="<?php echo new moodle_url('/mod/scorm/player.php');?>">
+					<input type="hidden" name="mode" value="<?php echo $mode;?>">
+					<input type="hidden" name="scoid" value="<?php echo $sco->nextid;?>">
+					<input type="hidden" name="cm" value="<?php echo $cm->id;?>">
+					<input type="hidden" name="currentorg" value="<?php echo $currentorg;?>">
+					<input type="hidden" name="reload" value="1">
+					<input class="submit" type="submit" value="<?php echo get_string('next', 'scorm');?>">
+				</form>
+			</td>
+	
+		<?php
+        }
+        ?>
+	</tr>
+</table>
+
     <div id="scormpage">
     
       <div id="tocbox">
@@ -225,7 +272,9 @@
 
             echo html_writer::script('', $CFG->wwwroot.'/mod/scorm/player.js');
             echo html_writer::script(js_writer::function_call('scorm_openpopup', Array("loadSCO.php?id=".$cm->id.$scoidpop, $name, $scorm->options, $scorm->width, $scorm->height)));
+			
             ?>
+			<script></script>
             <noscript>
             <!--[if IE]>
                 <iframe id="main" class="scoframe" name="main" src="loadSCO.php?id=<?php echo $cm->id.$scoidstr.$modestr; ?>"></iframe>
@@ -237,6 +286,7 @@
 <?php
         }
     } else {
+	
         echo $OUTPUT->box(get_string('noprerequisites','scorm'));
     }
 ?>
@@ -249,11 +299,29 @@ if (!isset($result->toctitle)) {
 
 $PAGE->requires->js_init_call('M.mod_scorm.init', array($scorm->hidenav, $scorm->hidetoc, $result->toctitle, $name, $sco->id));
 
-
 $completion=new completion_info($course);
 $completion->set_module_viewed($cm);
 
 if (!empty($forcejs)) {
     echo $OUTPUT->box(get_string("forcejavascriptmessage", "scorm"), "generalbox boxaligncenter forcejavascriptmessage");
 }
+	
 echo $OUTPUT->footer();
+
+if($reload){	
+	?>
+	<div style="display:none"></div>
+	<form id="formcurrent" method="post" action="<?php echo new moodle_url('/mod/scorm/player.php')?>">
+              <input type="hidden" name="mode" value="<?php echo $mode;?>">
+              <input type="hidden" name="scoid" value="<?php echo $sco->id;?>">
+              <input type="hidden" name="cm" value="<?php echo $cm->id;?>">
+              <input type="hidden" name="currentorg" value="<?php echo $currentorg;?>">
+              <input class="submit" type="submit" value="Next">
+      </form>
+
+
+<script>
+	var elem = document.getElementById('formcurrent');
+	elem.submit();
+</script>
+<?php }?>

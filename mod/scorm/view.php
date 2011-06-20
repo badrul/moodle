@@ -6,7 +6,7 @@
     $id = optional_param('id', '', PARAM_INT);       // Course Module ID, or
     $a = optional_param('a', '', PARAM_INT);         // scorm ID
     $organization = optional_param('organization', '', PARAM_INT); // organization ID
-
+	
     if (!empty($id)) {
         if (! $cm = get_coursemodule_from_id('scorm', $id)) {
             print_error('invalidcoursemodule');
@@ -30,6 +30,7 @@
     } else {
         print_error('missingparameter');
     }
+	
 
     $url = new moodle_url('/mod/scorm/view.php', array('id'=>$cm->id));
     if ($organization !== '') {
@@ -45,7 +46,15 @@
 
     $context = get_context_instance(CONTEXT_COURSE, $course->id);
     $contextmodule = get_context_instance(CONTEXT_MODULE,$cm->id);
-
+	
+	$skip=0;
+	if(in_array($cm->course,$skippagecourse) && !(has_capability('mod/scorm:viewreport', $contextmodule))){
+		$skip=1;
+	}
+	if($skip){
+		$PAGE->blocks->show_only_fake_blocks();
+		echo '<div style="display:none">';
+	}
     if (isset($SESSION->scorm_scoid)) {
         unset($SESSION->scorm_scoid);
     }
@@ -56,10 +65,11 @@
     $pagetitle = strip_tags($course->shortname.': '.format_string($scorm->name));
 
     add_to_log($course->id, 'scorm', 'pre-view', 'view.php?id='.$cm->id, "$scorm->id", $cm->id);
-
-    if ((has_capability('mod/scorm:skipview', $contextmodule)) && scorm_simple_play($scorm,$USER, $contextmodule)) {
-        exit;
-    }
+	if(!($skip)){
+		if ((has_capability('mod/scorm:skipview', $contextmodule)) && scorm_simple_play($scorm,$USER, $contextmodule)) {
+			exit;
+		}
+	}
 
     //
     // Print the page header
@@ -90,10 +100,20 @@
         $scormopen = false;
     }
     if ($scormopen) {
+		
         scorm_view_display($USER, $scorm, 'view.php?id='.$cm->id, $cm);
+		if($skip){echo '</div>';}
     }
     if (!empty($forcejs)) {
         echo $OUTPUT->box(get_string("forcejavascriptmessage", "scorm"), "generalbox boxaligncenter forcejavascriptmessage");
     }
+	
     echo $OUTPUT->footer();
-
+	if($skip){
+	?>
+	<script type='text/javascript'>
+	var elem = document.getElementById('theform');
+	elem.submit();
+	</script>
+	<?php
+	}

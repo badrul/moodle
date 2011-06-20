@@ -20,7 +20,11 @@ class block_navigation_renderer extends plugin_renderer_base {
 
         // array of nested li elements
         $lis = array();
+		$excepted=array('Site pages','Forum posts','Messages','My private files');
         foreach ($items as $item) {
+			if(in_array($item->text,$excepted) ){
+				continue;
+			}
             if (!$item->display && !$item->contains_active_node()) {
                 continue;
             }
@@ -103,8 +107,8 @@ class block_navigation_renderer extends plugin_renderer_base {
             }
             $content = html_writer::tag('li', $content, $liattr);
             $lis[] = $content;
+			
         }
-
         if (count($lis)) {
             return html_writer::tag('ul', implode("\n", $lis), $attrs);
         } else {

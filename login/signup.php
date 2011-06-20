@@ -75,5 +75,26 @@ $PAGE->set_title($newaccount);
 $PAGE->set_heading($SITE->fullname);
 
 echo $OUTPUT->header();
+echo "<script>
+
+function detectdob(){
+	username=document.getElementById('id_username');
+	
+	if(username.value.length==12){
+		document.getElementsByName('profile_field_dob[day]')[0].selectedIndex=username.value.charAt(4)+username.value.charAt(5)-1;
+		document.getElementsByName('profile_field_dob[month]')[0].selectedIndex=username.value.charAt(2)+username.value.charAt(3)-1;
+		document.getElementsByName('profile_field_dob[year]')[0].selectedIndex=username.value.charAt(0)+username.value.charAt(1)-11;	
+		
+		if(username.value.charAt(11)%2){
+			document.getElementsByName('profile_field_Gender')[0].selectedIndex=1;	
+		}else{
+			document.getElementsByName('profile_field_Gender')[0].selectedIndex=2;	
+		}
+	}
+
+}
+
+</script>";
+echo get_String('signupcontent');
 $mform_signup->display();
 echo $OUTPUT->footer();

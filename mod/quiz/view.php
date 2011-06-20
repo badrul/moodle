@@ -9,6 +9,7 @@
 
     $id = optional_param('id', 0, PARAM_INT); // Course Module ID, or
     $q = optional_param('q',  0, PARAM_INT);  // quiz ID
+    $au = optional_param('auto',  0, PARAM_INT);  // quiz ID
 
     if ($id) {
         if (! $cm = get_coursemodule_from_id('quiz', $id)) {
@@ -378,6 +379,9 @@
     if ($buttontext) {
         $accessmanager->print_start_attempt_button($canpreview, $buttontext, $unfinished);
     } else {
+		if($au){
+			 redirect($CFG->wwwroot . '/course/view.php?id=' . $course->id);
+		}
         echo $OUTPUT->continue_button($CFG->wwwroot . '/course/view.php?id=' . $course->id);
     }
     echo $OUTPUT->box_end();

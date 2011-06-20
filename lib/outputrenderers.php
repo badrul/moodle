@@ -436,7 +436,7 @@ class core_renderer extends renderer_base {
         } else if (isloggedin()) {
             $context = get_context_instance(CONTEXT_COURSE, $course->id);
 
-            $fullname = fullname($USER, true);
+            $fullname = str_replace(' &nbsp;','',fullname($USER, true));
             // Since Moodle 2.0 this link always goes to the public profile page (not the course profile page)
             $username = "<a href=\"$CFG->wwwroot/user/profile.php?id=$USER->id\">$fullname</a>";
             if (is_mnet_remote_user($USER) and $idprovider = $DB->get_record('mnet_host', array('id'=>$USER->mnethostid))) {
@@ -722,11 +722,27 @@ class core_renderer extends renderer_base {
         if (count($langs) < 2) {
             return '';
         }
-
+		else{
+			 $langmenu='';
+			 $i=0;
+			 foreach($langs as$lk=>$l){
+				$pos=strpos($l,'(');
+				$l=str_replace(substr($l,$pos),'',$l);
+				$langmenu.=(html_writer::tag('a', $l, array('href'=>'?lang='.$lk, 'class'=>'langmenu')));
+				$i++;
+				if($i<count($langs)){
+					$langmenu.='|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				}
+			 }
+			
+		}
+		return $langmenu;
+		/*
         $s = new single_select($this->page->url, 'lang', $langs, $currlang, null);
         $s->label = get_accesshide(get_string('language'));
         $s->class = 'langmenu';
         return $this->render($s);
+		*/
     }
 
     /**

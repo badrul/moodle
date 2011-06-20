@@ -850,3 +850,6 @@ if (false) {
     $OUTPUT = new core_renderer(null, null);
     $PAGE = new moodle_page();
 }
+
+global $skippagecourse;
+$skippagecourse=array('2','3');

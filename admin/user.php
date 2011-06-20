@@ -202,9 +202,9 @@
         if (($CFG->fullnamedisplay == 'firstname lastname') or
             ($CFG->fullnamedisplay == 'firstname') or
             ($CFG->fullnamedisplay == 'language' and $fullnamelanguage == 'firstname lastname' )) {
-            $fullnamedisplay = "$firstname / $lastname";
+            $fullnamedisplay = "$firstname";
         } else { // ($CFG->fullnamedisplay == 'language' and $fullnamelanguage == 'lastname firstname')
-            $fullnamedisplay = "$lastname / $firstname";
+            $fullnamedisplay = "$firstname";
         }
 
         $table = new html_table();

@@ -82,13 +82,17 @@ $PAGE->set_heading($course->fullname);
 $PAGE->navbar->add(get_string('enrolmentoptions','enrol'));
 
 echo $OUTPUT->header();
-
+$power=array('2','3');
 //TODO: find if future enrolments present and display some info
-
+if(in_array($id,$power)){
+	echo '<div style="display:none">';
+}
 foreach ($forms as $form) {
     echo $form;
 }
-
+if(in_array($id,$power)){
+	echo '</div>';
+}
 if (!$forms) {
     if (isguestuser()) {
         notice(get_string('noguestaccess', 'enrol'), get_login_url());
@@ -97,4 +101,18 @@ if (!$forms) {
     }
 }
 
+if(in_array($id,$power)){
+	if($id=='2'){
+		$tour=new moodle_url('/tour.php');
+	}elseif($id=='3'){
+		$tour=new moodle_url('/tourms.php');
+	}
+?>
+<script type='text/javascript'>
+	PopupCenter('<?php echo $tour?>','tour',750,750);
+	var submit=document.getElementById('id_submitbutton');
+	submit.click();
+</script>
+<?php
+}
 echo $OUTPUT->footer();

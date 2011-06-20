@@ -24,7 +24,12 @@ class profile_field_checkbox extends profile_field_base {
 
     function edit_field_add(&$mform) {
         /// Create the form field
-        $checkbox = &$mform->addElement('advcheckbox', $this->inputname, format_string($this->field->name));
+		if(strpos($this->field->name,' ') || $this->field->name==ucfirst($this->field->name)){
+			$name=strtolower(str_replace(array(' ','?'),'',$this->field->name));
+			$checkbox = &$mform->addElement('advcheckbox', $this->inputname, get_string($name));
+		}else{
+			$checkbox = &$mform->addElement('advcheckbox', $this->inputname, format_string($this->field->name));
+		}
         if ($this->data == '1') {
             $checkbox->setChecked(true);
         }

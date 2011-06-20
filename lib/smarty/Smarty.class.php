@@ -30,7 +30,7 @@
  * @version 2.6.26
  */
 
-/* $Id$ */
+/* $Id: Smarty.class.php,v 1.5 2010/12/14 17:35:50 moodlerobot Exp $ */
 
 /**
  * DIR_SEP isn't used anymore, but third party apps might

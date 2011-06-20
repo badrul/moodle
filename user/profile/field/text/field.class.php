@@ -32,7 +32,12 @@ class profile_field_text extends profile_field_base {
         $fieldtype = ($this->field->param3 == 1 ? 'password' : 'text');
 
         /// Create the form field
-        $mform->addElement($fieldtype, $this->inputname, format_string($this->field->name), 'maxlength="'.$maxlength.'" size="'.$size.'" ');
+		if(strpos($this->field->name,' ') || $this->field->name==ucfirst($this->field->name)){
+			$name=strtolower(str_replace(' ','',$this->field->name));
+			$mform->addElement($fieldtype, $this->inputname, get_string($name), 'maxlength="'.$maxlength.'" size="'.$size.'" ');
+		}else{
+			$mform->addElement($fieldtype, $this->inputname, format_string($this->field->name), 'maxlength="'.$maxlength.'" size="'.$size.'" ');
+		}
         $mform->setType($this->inputname, PARAM_MULTILANG);
     }
 

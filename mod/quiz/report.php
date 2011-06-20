@@ -90,6 +90,9 @@
     if (!$report->display($quiz, $cm, $course)) { // Run the report!
         print_error("preprocesserror", 'quiz');
     }
+	if($otherquizs=$DB->get_records_sql("SELECT a.* FROM {course_modules} a WHERE a.section = $cm->section AND a.module = $cm->module AND a.instance!=$cm->instance AND a.course = $cm->course")){
+		echo '<div><button><a href="'.str_replace('report.php','comparereport.php',$url).'" style="color:black"/>'.get_string('compare').'</button></div>';
+	}
 
 /// Print footer
 

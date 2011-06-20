@@ -35,7 +35,7 @@ TREE.prototype = {
 
         // Delegate event to toggle expansion
         var self = this;
-        Y.delegate('click', function(e){self.toggleExpansion(e);}, node.one('.block_tree'), '.tree_item.branch');
+        Y.delegate('click', function(e){self.toggleExpansion(e);parent.fixH();}, node.one('.block_tree'), '.tree_item.branch');
 
         // Gather the expandable branches ready for initialisation.
         var expansions = [];

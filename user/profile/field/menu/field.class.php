@@ -35,7 +35,17 @@ class profile_field_menu extends profile_field_base {
      * @param   object   moodleform instance
      */
     function edit_field_add(&$mform) {
-        $mform->addElement('select', $this->inputname, format_string($this->field->name), $this->options);
+		if(strpos($this->field->name,' ') || $this->field->name==ucfirst($this->field->name)){
+			$name=strtolower(str_replace(array(' ','?'),'',$this->field->name));
+			foreach($this->options as $o=>$opt){
+				if(!strpos($opt,'...') && !strpos(' '.$opt,'0') && !strpos(' '.$opt,'1') && !strpos(' '.$opt,'2') && !strpos(' '.$opt,'3') && !strpos(' '.$opt,'>') ){
+					$this->options[$o]=get_string(strtolower(str_replace(array(' ','?'),'',$opt)));
+				}
+			}
+			$mform->addElement('select', $this->inputname, get_string($name), $this->options);
+		}else{
+			$mform->addElement('select', $this->inputname, format_string($this->field->name), $this->options);
+		}
     }
 
     /**

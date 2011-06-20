@@ -358,7 +358,7 @@ function profile_definition(&$mform) {
 
     // if user is "admin" fields are displayed regardless
     $update = has_capability('moodle/user:update', get_context_instance(CONTEXT_SYSTEM));
-
+	$strrequired = get_string('required');
     if ($categories = $DB->get_records('user_info_category', null, 'sortorder ASC')) {
         foreach ($categories as $category) {
             if ($fields = $DB->get_records('user_info_field', array('categoryid'=>$category->id), 'sortorder ASC')) {
@@ -373,13 +373,36 @@ function profile_definition(&$mform) {
 
                 // display the header and the fields
                 if ($display or $update) {
-                    $mform->addElement('header', 'category_'.$category->id, format_string($category->name));
+					if($category->name!='contact2'){
+						if(strpos($category->name,' ') || $category->name==ucfirst($category->name)){
+							$name=strtolower(str_replace(' ','',$category->name));
+							$mform->addElement('header', 'category_'.$category->id, get_string($name));
+						}else{
+							$mform->addElement('header', 'category_'.$category->id, format_string($category->name));
+						}
+					}
                     foreach ($fields as $field) {
                         require_once($CFG->dirroot.'/user/profile/field/'.$field->datatype.'/field.class.php');
                         $newfield = 'profile_field_'.$field->datatype;
                         $formfield = new $newfield($field->id);
                         $formfield->edit_field($mform);
                     }
+					if($category->name=='Contact'){
+					$mform->addElement('text', 'city', get_string('city'), 'maxlength="120" size="21"');
+    $mform->setType('city', PARAM_MULTILANG);
+    $mform->addRule('city', $strrequired, 'required', null, 'client');
+    if (!empty($CFG->defaultcity)) {
+        $mform->setDefault('city', $CFG->defaultcity);
+    }
+					}elseif($category->name=='contact2'){
+					$choices = get_string_manager()->get_list_of_countries();
+    $choices= array(''=>get_string('selectacountry').'...') + $choices;
+    $mform->addElement('select', 'country', get_string('selectacountry'), $choices);
+    $mform->addRule('country', $strrequired, 'required', null, 'client');
+    if (!empty($CFG->country)) {
+        $mform->setDefault('country', $CFG->country);
+    }
+					}
                 }
             }
         }
@@ -431,17 +454,24 @@ function profile_save_data($usernew) {
 
 function profile_display_fields($userid) {
     global $CFG, $USER, $DB;
-
+	$except=array('ifyespleasechoose');
     if ($categories = $DB->get_records('user_info_category', null, 'sortorder ASC')) {
         foreach ($categories as $category) {
             if ($fields = $DB->get_records('user_info_field', array('categoryid'=>$category->id), 'sortorder ASC')) {
                 foreach ($fields as $field) {
-                    require_once($CFG->dirroot.'/user/profile/field/'.$field->datatype.'/field.class.php');
-                    $newfield = 'profile_field_'.$field->datatype;
-                    $formfield = new $newfield($field->id, $userid);
-                    if ($formfield->is_visible() and !$formfield->is_empty()) {
-                        print_row(format_string($formfield->field->name.':'), $formfield->display_data());
-                    }
+					if(!in_array($field->name,$except)){
+						require_once($CFG->dirroot.'/user/profile/field/'.$field->datatype.'/field.class.php');
+						$newfield = 'profile_field_'.$field->datatype;
+						$formfield = new $newfield($field->id, $userid);
+						if ($formfield->is_visible() and !$formfield->is_empty() ) {
+							if(strpos($formfield->field->name,' ') || $formfield->field->name==ucfirst($formfield->field->name)){
+								$name=strtolower(str_replace(array(' ','?'),'',$formfield->field->name));
+								print_row(get_string($name).':', $formfield->display_data());
+							}else{
+								print_row(format_string($formfield->field->name.':'), $formfield->display_data());
+							}
+						}
+					}
                 }
             }
         }

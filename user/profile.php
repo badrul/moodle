@@ -236,7 +236,7 @@ if (! isset($hiddenfields['country']) && $user->country) {
 if (! isset($hiddenfields['city']) && $user->city) {
     print_row(get_string('city') . ':', $user->city);
 }
-
+/*
 if (has_capability('moodle/user:viewhiddendetails', $context)) {
     if ($user->address) {
         print_row(get_string("address").":", "$user->address");
@@ -248,7 +248,7 @@ if (has_capability('moodle/user:viewhiddendetails', $context)) {
         print_row(get_string("phone2").":", "$user->phone2");
     }
 }
-
+*/
 if ($currentuser
   or $user->maildisplay == 1
   or has_capability('moodle/course:useremail', $context)

@@ -22,7 +22,6 @@
     if ($page !== 0) $url->param('page');
     if ($perpage !== DEFAULT_PAGE_SIZE) $url->param('perpage');
     $PAGE->set_url($url);
-    $PAGE->set_pagelayout('admin');
 
     if ($action != 'view' and $action != 'post') {
         $action = ''; // default to all (don't restrict)
@@ -59,8 +58,9 @@
 
     $PAGE->set_title($course->shortname .': '. $strparticipation);
     $PAGE->set_heading($course->fullname);
+	$PAGE->set_pagelayout('report');
     echo $OUTPUT->header();
-
+	
     $modinfo = get_fast_modinfo($course);
 
     $modules = $DB->get_records_select('modules', "visible = 1", null, 'name ASC');
@@ -164,14 +164,14 @@
         $table = new flexible_table('course-participation-'.$course->id.'-'.$cm->id.'-'.$roleid);
         $table->course = $course;
 
-        $table->define_columns(array('fullname','count','select'));
+        $table->define_columns(array('firstname','count','select'));
         $table->define_headers(array(get_string('user'),((!empty($action)) ? get_string($action) : get_string('allactions')),get_string('select')));
         $table->define_baseurl($baseurl);
 
         $table->set_attribute('cellpadding','5');
         $table->set_attribute('class', 'generaltable generalbox reporttable');
 
-        $table->sortable(true,'lastname','ASC');
+        $table->sortable(true,'firstname','ASC');
         $table->no_sorting('select');
 
         $table->set_control_variables(array(

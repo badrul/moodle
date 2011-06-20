@@ -207,7 +207,6 @@ $fields = array(
     'userdetails' => array (
         'picture' => false,
         'firstname' => get_string('firstname'),
-        'lastname' => get_string('lastname'),
         'email' => get_string('email')
     ),
     'lastseen' => get_string('lastaccess'),

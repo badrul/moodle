@@ -657,7 +657,7 @@ $string['filloutallfields'] = 'Please fill out all fields in this form';
 $string['filter'] = 'Filter';
 $string['findmorecourses'] = 'Find more courses...';
 $string['firstaccess'] = 'First access';
-$string['firstname'] = 'First name';
+$string['firstname'] = 'Full Name';
 $string['firsttime'] = 'Is this your first time here?';
 $string['flashlinkmessage'] = 'Please upgrade your Flash player now:';
 $string['flashupgrademessage'] = 'The Flash plugin is required to play this content, but the version you have is too old.
@@ -1634,7 +1634,7 @@ $string['toomanyuserstoshow'] = 'Too many users ({$a}) to show';
 $string['toonly'] = 'to {$a} only';
 $string['top'] = 'Top';
 $string['topic'] = 'Topic';
-$string['topicoutline'] = 'Topic outline';
+$string['topicoutline'] = 'Progress outline';
 $string['topicshow'] = 'Show this topic to {$a}';
 $string['topichide'] = 'Hide this topic from {$a}';
 $string['total'] = 'Total';
@@ -1704,6 +1704,7 @@ $string['userdetails'] = 'User details';
 $string['userfiles'] = 'User files';
 $string['userlist'] = 'User list';
 $string['username'] = 'Username';
+$string['username1'] = 'NRIC No. / Old IC No. / Police / Armed Forces / Passport No';
 $string['usernameemailmatch'] = 'The username and email address do not relate to the same user';
 $string['usernameexists'] = 'This username already exists, choose another';
 $string['usernamelowercase'] = 'Only lowercase letters allowed';
@@ -1813,3 +1814,285 @@ $string['yourself'] = 'yourself';
 $string['yourteacher'] = 'your {$a}';
 $string['yourwordforx'] = 'Your word for \'{$a}\'';
 $string['zippingbackup'] = 'Zipping backup';
+
+//added
+$string['aboutus']='About Us';
+$string['aboutuscontent']="<h2>What is the AKPK Online Learning Portal?</h2>
+<div align='justify'>
+<br />
+<p>
+AKPK's Online Learning Portal (OLP) is an avenue for the public to acquire personal money management skills by completing a Financial Education (FE) training course online. 
+</p>
+<p>
+The POWER! Programme was developed to support the FE initiative through roadshows, classroom training and its POWER! book which are made available to the public.
+</p>
+<p>
+In an effort to continuously inculcate prudent financial management as a way of life and widen AKPK’s reach, the POWER! Programme is now available to all citizens of Malaysia anytime and anywhere. 
+</p>
+<p>
+The programme is further strengthened through the OLP which incorporates the latest internet technology and learning methodology.
+</p>";
+$string['actualcashflow']='Actual Cash Flow';
+$string['asset']='Assets';
+$string['balance']='Balance';
+$string['balanceerr']='Balance must be greater than 0';
+$string['bon']='Bonds';
+$string['branch']='BRANCHES';
+$string['budget']='Budget';
+$string['budgetcalc']='Budget with Cash Flow Statement';
+$string['budgetdllink']='/theme/modified/layout/cal/budget.xls';
+$string['calculate']='Calculate';
+$string['carloan']='Car Loan';
+$string['cars']='Cars';
+$string['cashasset']='Cash Assets';
+$string['compare']='Compare';
+$string['contact']='Contact';
+$string['contactus']='Contact Us';
+$string['copyright']='Copyright 2011 by Agensi Kaunseling Dan Pengurusan Kredit (AKPK) | ';
+$string['creditcalc']='Credit Card';
+$string['creditcalcdllink']='/theme/modified/layout/cal/creditcard.xls';
+$string['creditcalcresult']='Credit Card Debt Pay Off Details';
+$string['creditcard']='Credit Card';
+$string['creditcardbills']='Credit Card Bills';
+$string['creditcardmsg']='By paying $msg on credit card outstanding amount of RM $principal it takes $count months to settle';
+$string['currenacc']='Current Account';
+$string['disclaimercontent']='Disclaimer Content:';
+$string['divorced']='Divorced';
+$string['dob']='DOB';
+$string['downpayment']='Down Payment';
+$string['downpaymenterr']='Down Payment must be a number lesser than Purchase Price';
+$string['educationloan']='Education Loan';
+$string['emergencyfunds']='Emergency Funds';
+$string['epf']='EPF Account';
+$string['excessordeficit']='Excess / (Deficit)';
+$string['familypersonalloan']='Family/Personal Loan';
+$string['fd']='Fixed Deposit';
+$string['female']='Female';
+$string['finacialinformation']='Finacial Information';
+$string['financialtool']='Financial Calculators';
+$string['fixamount']='Fixed Monthly Payment';
+$string['fixpay']='fixed regular payment of RM $pay';
+$string['gender']='Gender';
+$string['haveyoutakenaloanbefore']='Have you taken a loan before?';
+$string['headerbgurl']='/theme/modified/pix/header.png';
+$string['headermenuclass']='headermenu';
+$string['houseloandllink']='/theme/modified/layout/cal/housingloan.xls';
+$string['housingloan']='Housing Loan';
+$string['housingloancal']='Housing Loan';
+$string['housingloanresult']='Housing Loan Calculation Result';
+$string['housingloans']='Housing Loan(s)';
+$string['hpcalculator']='Hire Purchase';
+$string['hpdllink']='/theme/modified/layout/cal/hploan.xls';
+$string['hpoutstanding']='Hire Purchase Outstanding';
+$string['hpresult']='Hire Purchase Calculator Result';
+$string['hq']='HEADQUARTERS';
+$string['ifyespleasechoose']='If yes, please choose:';
+$string['incometaxpayable']='Income Tax Payable';
+$string['interestrate']='Interest Rate %';
+$string['interestrateerr']='Rate must be greater than 1 and Less than 100%';
+$string['introurl']='/theme/modified/pix/intro.png';
+$string['investmentasset']='Investment Assets';
+$string['investmentproperties']='Investment Properties';
+$string['item']='Item';
+$string['jewellery']='Jewelleries Collectible';
+$string['landed']='Landed Properties';
+$string['less']='Less:';
+$string['lessdisexpense']='Less Discretionary Expenses:';
+$string['lessfixexpense']='Less Fixed Expenses:';
+$string['lessvarexpense']='Less Variable Expenses:';
+$string['liabilities']='Liabilities';
+$string['lifeinsurance']='Life Insurance';
+$string['link']='Links';
+$string['links']='Links';
+$string['loanamount']='Loan Amount';
+$string['loanperioad']='Loan Period (Years)';
+$string['longtermasset']='Long Term Assets';
+$string['longtermliabilities']='Long Term Liabilities';
+$string['male']='Male';
+$string['maritalstatus']='Marital Status';
+$string['married']='Married';
+$string['minpayment']='minimum payment';
+$string['monthlyincome']='Monthly Income';
+$string['monthlypayment']='Monthly Payment';
+$string['netofsaving']='Income (Net of Savings)';
+$string['networth']='Net Worth';
+$string['networthcalc']='Net Worth Statement';
+$string['networthdllink']='/theme/modified/layout/cal/networth.xls';
+$string['noofdependants']='No of Dependants';
+$string['notworking']='Not working';
+$string['others']='Others';
+$string['othersources']='Other Sources';
+$string['ourinfo']='Our Info';
+$string['overallaverage']='Overall Average';
+$string['payerror']='Must pay at least 5% of balance or RM50 whicever is higher';
+$string['payfix']='Pay fixed monthly amount';
+$string['paymin']='Pay minimum only';
+$string['personalinformation']='Personal Information';
+$string['personalloan']='Personal Loan';
+$string['personalod']='Personal Overdrafts';
+$string['postcode']='Postcode';
+$string['primary']=' Primary';
+$string['privacy']=' Privacy Statement';
+$string['privacycontent']="<p>
+The copyright of the POWER &minus; Managing Your Debts Effectively (POWER!) learning material belongs to Agensi Kaunseling dan Pengurusan Kredit (AKPK). This material or parts thereof may be reproduced, translated or transmitted in any form WITH prior written permission from AKPK only solely for educational purposes. No monetary gain in any form should be made or derived, whether direct or indirect from such reproduction.
+</p>
+<p>
+The information contained in the POWER learning content is solely for educational purpose. It is not intended as a substitute for any advice you may receive from a professional financial advisor.
+</p>
+<p>
+Agensi Kaunseling dan Pengurusan Kredit (AKPK) disclaims any and all liability to any person using the POWER content and information as a basis for making or taking an action. While all efforts have been made to make the information contained in this content accurate, AKPK seeks your understanding for any errors or omission.
+</p>
+<p>
+The names and details of individuals in the real life cases have been changed to protect their identities.
+</p>";
+$string['purchaseprice']='Purchase Price';
+$string['purchasepriceerr']='Purchase Price must be a number greater than 0';
+$string['qualification']='Qualification';
+$string['race']='Race';
+$string['salary']='Salary (net of EPF, SOCSO and tax)';
+$string['saving']='Savings Account';
+$string['savings']='Savings (10% of monthly income)';
+$string['secondary']='Secondary';
+$string['shorttermborrowings']='Short Term Borrowings';
+$string['shorttermliabilities']='Short Term Liabilities';
+$string['signupcontent']='<div align="justify" style="padding:50px"><h3>Registration Policy</h3><p>
+The details you provide while registering on the POWER! online learning portal MUST be your own and correct to the best of your knowledge. Impersonating someone else is considered a serious breach of the terms and conditions of acceptable use which apply to your use of this site.</p>
+<p>The primary reason AKPK collects your registration information is to customise the services we provide to you, whether through this site or by direct contact based on the information you supply to us. By your registration information, you agree to us providing that service and promoting products or services which we consider may be of interest you, from time to time.</p>
+<p>We at AKPK regard the collection and retention of your personal information very seriously and will strictly observe our privacy policy in respect of your information.</p>
+<p>If you have any concerns or questions, please <a href="'.new moodle_url('/contactus.php').'">contact us.</a></p></div>';
+$string['single']='Single';
+$string['startover']='Start Over';
+$string['stock']='Stocks & Shares';
+$string['telephoneno']='Telephone Number';
+$string['termerr']='Please Enter a repayment period';
+$string['tertiary']='Tertiary';
+$string['total']='Total';
+$string['totalasset']='Total Assets';
+$string['totalde']='Total Discretionary Expenses';
+$string['totalfe']='Total Fixed Expenses';
+$string['totalve']='Total Variable Expenses';
+$string['totalinterest']='Total Interest';
+$string['totalliability']='Total Liabilities';
+$string['totalmonthlyincome']='Total Monthly Income';
+$string['totalpayment']='Total Payment';
+$string['tutorialcontent']="Table of Contents
+	<ul><a href='#2'>1. Steps to register for OLP</a></ul>
+	<ul><a href='#3'>2. How to participate in the POWER! Course</a></ul>
+	<ul>
+		<a href='#4'>3. OLP features</a>
+		<ul><br/><a href='#41'>3.1 Keep Track of Your Course Status</a></ul>
+		<ul><a href='#42'>3.2 Manage Your Profile and Preferences</a></ul>
+		<ul><a href='#43'>3.3 Financial Calculator</a></ul>
+		<ul><a href='#44'>3.4 Links</a></ul>
+		<ul><a href='#45'>3.5 Password Problems</a></ul>
+		<ul><a href='#46'>3.6 Language Selections</a></ul>
+	</ul>
+</p>
+<p>
+<a name='2'></a>
+<h4>1. Steps to Register for OLP</h4>
+
+<ul>- Create a new account</ul>
+<ul>- Fill in your particulars and submit</ul>
+<ul>- Check your email for account verification</ul>
+<ul>- It's done. You are our member. You can now participate in the POWER! programme.</ul>
+ <center><img src=\"".new moodle_url('/theme/modified/pix/tutorial/singuppage.png')."\"/></center>
+</p>
+<a name='3'></a>
+<h4>2. How to participate in the POWER! Programme</h4>
+
+<ul>1. Once registered, you can now begin our course.</ul>
+<ul>2. The OLP provides you the option to either take part in Malay or English.</ul>
+<center><img src=\"".new moodle_url('/theme/modified/pix/tutorial/availablecourse.png')."\"/></center>
+<ul>3. The POWER! Programme is animation based. You will find it informative and engaging.</ul>
+<ul>4. There is no time limit for you to complete the course but you are required to attend the whole six (6) chapters in sequence</ul>
+<ul>
+	5. For each chapter, you will have to complete these three(3) areas:
+	<br/>
+	<ul>5.1. Pre-Quiz &minus; Answer two (2) questions to test your current financial knowledge</ul>
+	<ul>5.2. Topics &minus; You will go through our guided learning process with interesting animation and voices</ul>
+	<ul>5.3. Post-Quiz &minus; To test your understanding on topics that you have gone through. Once done, you can proceed to the next chapter. If not, you can repeat it again</ul>
+</ul>
+<ul>6. If you choose the Malay content, you have to complete the chapters in Malay. If you switch to the English content in the middle of learning process, the system will not be able to keep track of your last learning progress and therefore, you will have to start from the beginning</ul>
+<center>
+	<img src=\"".new moodle_url('/theme/modified/pix/tutorial/content.png')."\"/>
+	<br/>
+	Content for each chapter
+</center>
+<br/>
+<center>
+	<img src=\"".new moodle_url('/theme/modified/pix/tutorial/topic.png')."\"/>
+	<br/>
+	Topics
+</center>
+<br/>
+<center>
+	<img src=\"".new moodle_url('/theme/modified/pix/tutorial/postquiz.png')."\"/>
+	<br/>
+	Post Quiz
+</center>
+<br/>
+<ul>7. There will be a certificate issued to you for completing all chapters. We appreciate your willingness and time for participating in the POWER! Programme.</ul>
+<ul>8. You will be able to download your certificate from our OLP system once successful.</ul>
+<center>
+	<img src=\"".new moodle_url('/theme/modified/pix/tutorial/cert.png')."\"/>
+</center>
+<br/>
+<ul>9. That is all. You have now completed the course.</ul>
+<p>
+<a name='4'></a>
+<h4>3. OLP Features</h4>
+<a name='41'></a>
+<ul>
+	3.1 Keep Track of Your Course Status
+	<br/>
+	Your learning progress will be shown on this column and navigation menu
+	<center><img src=\"".new moodle_url('/theme/modified/pix/tutorial/coursecompletion.png')."\"/>
+	<br/>
+	<img src=\"".new moodle_url('/theme/modified/pix/tutorial/navigation.png')."\"/>
+	</center>
+</ul>
+<a name='42'></a>
+<ul>
+	3.2 Manage Your Profile and Preference
+	<br/>
+	AKPK OLP lets you update and manage your own profile as well as add an avatar as your profile picture.
+	<center><img src=\"".new moodle_url('/theme/modified/pix/tutorial/setting.png')."\"/></center>
+</ul>
+<a name='43'></a>
+<ul>
+	3.3 Financial Calculator
+	<br/>
+	AKPK OLP makes your financial life easier by giving you several types of calculators for you to calculate your own financial information and needs
+	<center><img src=\"".new moodle_url('/theme/modified/pix/tutorial/houseloancal.png')."\"/></center>
+	<center><img src=\"".new moodle_url('/theme/modified/pix/tutorial/hpcal.png')."\"/></center>
+	<center><img src=\"".new moodle_url('/theme/modified/pix/tutorial/creditcardcal.png')."\"/></center>
+	<center><img src=\"".new moodle_url('/theme/modified/pix/tutorial/networthcal.png')."\"/></center>
+	Example of Housing Loan and Hire Purchase Loan calculations:
+	<center><img src=\"".new moodle_url('/theme/modified/pix/tutorial/houseloaneg.png')."\"/></center>
+	<center><img src=\"".new moodle_url('/theme/modified/pix/tutorial/hpeg.png')."\"/></center>
+</ul>
+<a name='44'></a>
+<ul>
+3.4 Links
+<br/>
+	You may follow us on Facebook to join discussions and get the latest information from us as well as related financial institutions.
+	<center><img src=\"".new moodle_url('/theme/modified/pix/tutorial/link.png')."\"/></center>
+</ul>
+<ul>
+<a name='45'></a>
+3.5 Password Problems
+<br/>
+	If you have forgotten your password, we will provide you with two(2) options to retrieve your password either by IC No or email. We will send you an email with instructions on how to access the OLP again.
+	<center><img src=\"".new moodle_url('/theme/modified/pix/tutorial/password.png')."\"/></center>
+</ul>
+<a name='46'></a>
+<ul>
+3.6 Language Selection
+<br/>
+	You can choose either to view the portal in Malay or English. Even-though you have done the selection previously, it will not affect the course content.
+	<center><img src=\"".new moodle_url('/theme/modified/pix/tutorial/language.png')."\"/></center>
+</ul>";
+$string['unittrust']='Unit Trust';
+$string['userstatistics']='User Statistics';
+

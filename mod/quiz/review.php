@@ -9,12 +9,11 @@
 
     require_once(dirname(__FILE__) . '/../../config.php');
     require_once($CFG->dirroot . '/mod/quiz/locallib.php');
-    require_once($CFG->dirroot . '/mod/quiz/report/reportlib.php');
 
     $attemptid = required_param('attempt', PARAM_INT);
     $page = optional_param('page', 0, PARAM_INT);
     $showall = optional_param('showall', 0, PARAM_BOOL);
-
+	$power=array('2','3');
     $url = new moodle_url('/mod/quiz/review.php', array('attempt'=>$attemptid));
     if ($page !== 0) {
         $url->param('page', $page);
@@ -37,10 +36,14 @@
     // Check permissions.
     if ($attemptobj->is_own_attempt()) {
         if (!$attemptobj->is_finished()) {
+			print_r('1');
             redirect($attemptobj->attempt_url(0, $page));
         } else if (!$options->responses) {
-            $accessmanager->back_to_view_page($attemptobj->is_preview_user(),
-                    $accessmanager->cannot_review_message($options));
+			if(in_array($attemptobj->get_courseid(),$power)){
+				redirect(new moodle_url(nextview($attemptobj,$DB)));
+			}else{
+				$accessmanager->back_to_view_page($attemptobj->is_preview_user(),$accessmanager->cannot_review_message($options));
+			}
         }
 
     } else if (!$attemptobj->is_review_allowed()) {
@@ -62,7 +65,8 @@
         $formdata = data_submitted();
 
         question_save_flags($formdata, $attemptid, $questionids);
-        redirect($attemptobj->review_url(0, $page, $showall));
+		print_r('1');
+        //redirect($attemptobj->review_url(0, $page, $showall));
     }
 
 /// Log this review.
@@ -243,11 +247,43 @@
 /// Print a link to the next page.
     echo '<div class="submitbtns">';
     if ($lastpage) {
-        $accessmanager->print_finish_review_link($attemptobj->is_preview_user());
+		if(in_array($attemptobj->get_courseid(),$power)){
+			echo '<a href="'.new moodle_url(nextview($attemptobj,$DB)).'">'.get_string('finishreview','quiz').'</a>';
+		}else{
+			$accessmanager->print_finish_review_link($attemptobj->is_preview_user());
+		}
     } else {
         echo link_arrow_right(get_string('next'), s($attemptobj->review_url(0, $page + 1)));
     }
     echo "</div>";
 
     echo $OUTPUT->footer();
+	
+	function nextview($data,$DB){
+		$cm=$data->get_cm();
+		$sect = $DB->get_records_sql("SELECT a.* FROM {course_sections} a WHERE a.id =".$cm->section); 
+		foreach($sect as $s){
+			$sequence=explode(',',$s->sequence);
+			$index=(array_search($cm->id,$sequence)+1);
+			if(!empty($sequence[$index])){
+				$ind= $sequence[$index];
+			}else{
+				$sec=$s->section +1;
+				$sect2 = $DB->get_records_sql("SELECT a.* FROM {course_sections} a WHERE a.course =".$s->course." AND a.section =".$sec); 
+				foreach($sect2 as $s2){
+					$sequence2=explode(',',$s2->sequence);
+					$ind= $sequence2[0];
+				}
+			}
+		}
+		$next = $DB->get_records_sql("SELECT a.* FROM {course_modules} a WHERE a.id =".$ind); 
+		foreach($next as $n){
+			$modules = $DB->get_records_sql("SELECT a.* FROM {modules} a WHERE a.id =".$n->module); 
+			foreach($modules as $m){
+				return '/mod/'.$m->name.'/view.php?id='.$ind.'&auto=1';
+			}
+		}
+		
+		
+	}
 

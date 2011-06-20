@@ -747,6 +747,7 @@ class flexible_table {
                 if ($formattedcolumn===NULL){
                     $formattedcolumn = $row->$column;
                 }
+
             }
             $formattedrow[$column] = $formattedcolumn;
         }
@@ -1372,6 +1373,7 @@ class table_sql extends flexible_table{
             $this->define_headers(array_keys((array)$onerow));
         }
         $this->setup();
+		
         $this->query_db($pagesize, $useinitialsbar);
         $this->build_table();
         $this->finish_output();

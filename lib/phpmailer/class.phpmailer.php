@@ -34,7 +34,7 @@
  * @author Andy Prevost
  * @author Marcus Bointon
  * @copyright 2004 - 2009 Andy Prevost
- * @version $Id$
+ * @version $Id: class.phpmailer.php,v 1.28 2010/12/14 17:35:42 moodlerobot Exp $
  * @license http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
  */
 

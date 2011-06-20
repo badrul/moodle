@@ -427,3 +427,4 @@ function scorm_get_next() {
         }
     }
 }
+

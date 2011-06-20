@@ -51,7 +51,9 @@ class user_active_filter_form extends moodleform {
                 $field = $fields[$fname];
                 foreach($datas as $i=>$data) {
                     $description = $field->get_label($data);
-                    $mform->addElement('checkbox', 'filter['.$fname.']['.$i.']', null, $description);
+					if($description){
+						$mform->addElement('checkbox', 'filter['.$fname.']['.$i.']', null, $description);
+					}
                 }
             }
 

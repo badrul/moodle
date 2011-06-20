@@ -148,7 +148,7 @@
     } else {
         $nextpage = $page + 1;
     }
-    echo '<input type="submit" value="' . get_string('next') . '" />';
+    echo '<input class="submit" type="submit" value="' . get_string('next') . '" />';
     echo "</div>";
 
     // Some hidden fields to trach what is going on.

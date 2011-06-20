@@ -103,13 +103,6 @@ function scorm_resize () {
     // resize the content container too to move the footer below the SCORM content
     var contenti3 = document.getElementById('content-i3');
     if (contenti3) {
-        contenti3.style.height = (winheight - totalheight + 30) + 'px';
-    } else {
-       document.getElementById('region-main-box').style.height = (finalheight + 30) + 'px';
-    }
-     // resize the content container too to move the footer below the SCORM content
-    var contenti3 = document.getElementById('content-i3');
-    if (contenti3) {
         contenti3.style.height = (finalheight + 30) + 'px';
     } else {
         document.getElementById('region-main-box').style.height = (finalheight + 30) + 'px';

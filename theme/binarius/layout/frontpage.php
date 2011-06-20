@@ -41,7 +41,7 @@ echo $OUTPUT->doctype() ?>
         <div id="page-header">
             <div id="page-header-wrapper" class="wrapper clearfix">
 
-                <h1 class="headermain"><?php echo $PAGE->heading ?></h1>
+                <h1 class="headermain"><?php //echo $PAGE->heading ?></h1>
                 <div class="headermenu">
                     <?php
                         echo $OUTPUT->login_info();
@@ -94,7 +94,7 @@ echo $OUTPUT->doctype() ?>
 
 <!-- START OF FOOTER -->
    <div id="footer" class="myclear">
-           <p class="helplink"><?php echo page_doc_link(get_string('moodledocslink')) ?></p>
+         <!--  <p class="helplink"><?php //echo page_doc_link(get_string('moodledocslink')) ?></p> -->
         <?php
                echo $OUTPUT->login_info();
                echo $OUTPUT->home_link();
