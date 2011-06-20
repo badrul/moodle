@@ -44,9 +44,10 @@ require_login($course);
 require_capability('moodle/course:enrolreview', $context);
 $PAGE->set_pagelayout('admin');
 
-$manager = new course_enrolment_manager($course, $filter);
+$manager = new course_enrolment_manager($PAGE, $course, $filter);
 $table = new course_enrolment_users_table($manager, $PAGE);
 $PAGE->set_url('/enrol/users.php', $manager->get_url_params()+$table->get_url_params());
+navigation_node::override_active_url(new moodle_url('/enrol/users.php', array('id' => $id)));
 
 // Check if there is an action to take
 if ($action) {
@@ -62,7 +63,9 @@ if ($action) {
 
     switch ($action) {
         /**
-         * Unenrols a user from this course
+<<<<<<< HEAD
+=======
+         * Unenrols a user from this course (including removing all of their grades)
          */
         case 'unenrol':
             $ue = $DB->get_record('user_enrolments', array('id'=>required_param('ue', PARAM_INT)), '*', MUST_EXIST);
@@ -81,6 +84,7 @@ if ($action) {
             }
             break;
         /**
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
          * Removes a role from the user with this course
          */
         case 'unassign':
@@ -161,11 +165,15 @@ if ($action) {
                 $actiontaken = true;
             }
             break;
+<<<<<<< HEAD
+=======
         /**
          * Edits the details of a users enrolment in the course
          */
         case 'edit':
             $ue = $DB->get_record('user_enrolments', array('id'=>required_param('ue', PARAM_INT)), '*', MUST_EXIST);
+
+            //Only show the edit form if the user has the appropriate capability
             list($instance, $plugin) = $manager->get_user_enrolment_components($ue);
             if ($instance && $plugin && $plugin->allow_manage($instance) && has_capability("enrol/$instance->enrol:manage", $manager->get_context())) {
                 $user = $DB->get_record('user', array('id'=>$ue->userid), '*', MUST_EXIST);
@@ -180,6 +188,7 @@ if ($action) {
                 $actiontaken = true;
             }
             break;
+>>>>>>> remotes/upstream/MOODLE_20_STABLE
     }
 
     // If we took an action display we need to display something special.
@@ -217,12 +226,12 @@ $fields = array(
 $table->set_fields($fields, $renderer);
 
 $canassign = has_capability('moodle/role:assign', $manager->get_context());
-$users = $manager->get_users_for_display($renderer, $PAGE->url, $table->sort, $table->sortdirection, $table->page, $table->perpage);
+$users = $manager->get_users_for_display($manager, $table->sort, $table->sortdirection, $table->page, $table->perpage);
 foreach ($users as $userid=>&$user) {
     $user['picture'] = $OUTPUT->render($user['picture']);
     $user['role'] = $renderer->user_roles_and_actions($userid, $user['roles'], $manager->get_assignable_roles(), $canassign, $PAGE->url);
     $user['group'] = $renderer->user_groups_and_actions($userid, $user['groups'], $manager->get_all_groups(), has_capability('moodle/course:managegroups', $manager->get_context()), $PAGE->url);
-    $user['enrol'] = $renderer->user_enrolments_and_actions($userid, $user['enrolments'], $PAGE->url);
+    $user['enrol'] = $renderer->user_enrolments_and_actions($user['enrolments']);;
 }
 $table->set_total_users($manager->get_total_users());
 $table->set_users($users);

@@ -381,7 +381,16 @@ function quiz_user_outline($course, $user, $mod, $quiz) {
 
     $result = new stdClass;
     $result->info = get_string('grade') . ': ' . $grade->str_long_grade;
-    $result->time = $grade->dategraded;
+
+    //datesubmitted == time created. dategraded == time modified or time overridden
+    //if grade was last modified by the user themselves use date graded. Otherwise use date submitted
+    //TODO: move this copied & pasted code somewhere in the grades API. See MDL-26704
+    if ($grade->usermodified == $user->id || empty($grade->datesubmitted)) {
+        $result->time = $grade->dategraded;
+    } else {
+        $result->time = $grade->datesubmitted;
+    }
+
     return $result;
 }
 
@@ -736,8 +745,8 @@ function quiz_get_grading_options() {
 /**
  * Returns an array of users who have data in a given quiz
  *
- * @global stdClass
- * @global object
+ * @todo: deprecated - to be deleted in 2.2
+ *
  * @param int $quizid
  * @return array
  */
