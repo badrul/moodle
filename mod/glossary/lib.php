@@ -490,13 +490,7 @@ function glossary_rating_permissions($contextid, $component, $ratingarea) {
  * Validates a submitted rating
  * @param array $params submitted data
  *            context => object the context in which the rated items exists [required]
-<<<<<<< HEAD
- *            component => The component for this module - should always be mod_forum [required]
- *            ratingarea => object the context in which the rated items exists [required]
- *            itemid => int the ID of the object being rated [required]
-=======
  *            itemid => int the ID of the object being rated
->>>>>>> remotes/upstream/MOODLE_20_STABLE
  *            scaleid => int the scale from which the user can select a rating. Used for bounds checking. [required]
  *            rating => int the submitted rating
  *            rateduserid => int the id of the user whose items have been rated. NOT the user who submitted the ratings. 0 to update all. [required]
@@ -506,30 +500,6 @@ function glossary_rating_permissions($contextid, $component, $ratingarea) {
 function glossary_rating_validate($params) {
     global $DB, $USER;
 
-<<<<<<< HEAD
-    // Check the component is mod_forum
-    if ($params['component'] != 'mod_glossary') {
-        throw new rating_exception('invalidcomponent');
-    }
-
-    // Check the ratingarea is post (the only rating area in forum)
-    if ($params['ratingarea'] != 'entry') {
-        throw new rating_exception('invalidratingarea');
-    }
-
-    // Check the rateduserid is not the current user .. you can't rate your own posts
-    if ($params['rateduserid'] == $USER->id) {
-        throw new rating_exception('nopermissiontorate');
-    }
-
-    $glossarysql = "SELECT g.id as glossaryid, g.scale, g.course, e.userid as userid, e.approved, e.timecreated, g.assesstimestart, g.assesstimefinish
-                      FROM {glossary_entries} e
-                      JOIN {glossary} g ON e.glossaryid = g.id
-                     WHERE e.id = :itemid";
-    $glossaryparams = array('itemid' => $params['itemid']);
-    $info = $DB->get_record_sql($glossarysql, $glossaryparams);
-    if (!$info) {
-=======
     if (!array_key_exists('itemid', $params)
             || !array_key_exists('context', $params)
             || !array_key_exists('rateduserid', $params)
@@ -543,7 +513,6 @@ function glossary_rating_validate($params) {
                      WHERE e.id = :itemid";
     $glossaryparams = array('itemid'=>$params['itemid']);
     if (!$info = $DB->get_record_sql($glossarysql, $glossaryparams)) {
->>>>>>> remotes/upstream/MOODLE_20_STABLE
         //item doesn't exist
         throw new rating_exception('invaliditemid');
     }
@@ -553,8 +522,6 @@ function glossary_rating_validate($params) {
         throw new rating_exception('invalidscaleid');
     }
 
-<<<<<<< HEAD
-=======
     if ($info->userid == $USER->id) {
         //user is attempting to rate their own glossary entry
         throw new rating_exception('nopermissiontorate');
@@ -565,7 +532,6 @@ function glossary_rating_validate($params) {
         throw new rating_exception('invaliduserid');
     }
 
->>>>>>> remotes/upstream/MOODLE_20_STABLE
     //check that the submitted rating is valid for the scale
 
     // lower limit
@@ -576,11 +542,7 @@ function glossary_rating_validate($params) {
     // upper limit
     if ($info->scale < 0) {
         //its a custom scale
-<<<<<<< HEAD
-        $scalerecord = $DB->get_record('scale', array('id' => -$info->scale));
-=======
         $scalerecord = $DB->get_record('scale', array('id' => -$params['scaleid']));
->>>>>>> remotes/upstream/MOODLE_20_STABLE
         if ($scalerecord) {
             $scalearray = explode(',', $scalerecord->scale);
             if ($params['rating'] > count($scalearray)) {
@@ -606,13 +568,6 @@ function glossary_rating_validate($params) {
         }
     }
 
-<<<<<<< HEAD
-    $cm = get_coursemodule_from_instance('glossary', $info->glossaryid, $info->course, false, MUST_EXIST);
-    $context = get_context_instance(CONTEXT_MODULE, $cm->id, MUST_EXIST);
-
-    // if the supplied context doesnt match the item's context
-    if ($context->id != $params['context']->id) {
-=======
     $glossaryid = $info->gid;
 
     $cm = get_coursemodule_from_instance('glossary', $glossaryid);
@@ -623,7 +578,6 @@ function glossary_rating_validate($params) {
 
     //if the supplied context doesnt match the item's context
     if (empty($context) || $context->id != $params['context']->id) {
->>>>>>> remotes/upstream/MOODLE_20_STABLE
         throw new rating_exception('invalidcontext');
     }
 

@@ -63,8 +63,6 @@ if ($action) {
 
     switch ($action) {
         /**
-<<<<<<< HEAD
-=======
          * Unenrols a user from this course (including removing all of their grades)
          */
         case 'unenrol':
@@ -84,7 +82,6 @@ if ($action) {
             }
             break;
         /**
->>>>>>> remotes/upstream/MOODLE_20_STABLE
          * Removes a role from the user with this course
          */
         case 'unassign':
@@ -165,8 +162,6 @@ if ($action) {
                 $actiontaken = true;
             }
             break;
-<<<<<<< HEAD
-=======
         /**
          * Edits the details of a users enrolment in the course
          */
@@ -188,7 +183,6 @@ if ($action) {
                 $actiontaken = true;
             }
             break;
->>>>>>> remotes/upstream/MOODLE_20_STABLE
     }
 
     // If we took an action display we need to display something special.

@@ -569,24 +569,12 @@ abstract class moodle_database {
      * @param int $type bound param type SQL_PARAMS_QM or SQL_PARAMS_NAMED
      * @param string $prefix named parameter placeholder prefix (unique counter value is appended to each parameter name)
      * @param bool $equal true means equal, false not equal
-<<<<<<< HEAD
-     * @param mixed $onemptyitems defines the behavior when the array of items is empty. Defaults to false,
-     *              meaning throw exceptions. Other values will become part of the returned SQL fragment.
-     * @return array - $sql and $params
-     */
-    public function get_in_or_equal($items, $type=SQL_PARAMS_QM, $prefix='param', $equal=true, $onemptyitems=false) {
-        static $counter = 1; // guarantees unique parameters in each request
-
-        // default behavior, throw exception on empty array
-        if (is_array($items) and empty($items) and $onemptyitems === false) {
-=======
      * @return array - $sql and $params
      */
     public function get_in_or_equal($items, $type=SQL_PARAMS_QM, $prefix='param', $equal=true) {
         static $counter = 1; // guarantees unique parameters in each request
 
         if (is_array($items) and empty($items)) {
->>>>>>> remotes/upstream/MOODLE_20_STABLE
             throw new coding_exception('moodle_database::get_in_or_equal() does not accept empty arrays');
         }
         // handle $onemptyitems on empty array of items

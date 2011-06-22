@@ -62,10 +62,6 @@ $string['errajaxsearch'] = 'Error when searching users';
 $string['erroreditenrolment'] = 'An error occurred while trying to edit a users enrolment';
 $string['errorenrolcohort'] = 'Error creating cohort sync enrolment instance in this course.';
 $string['errorenrolcohortusers'] = 'Error enrolling cohort members in this course.';
-<<<<<<< HEAD
-$string['errorwithbulkoperation'] = 'There was an error while processing your bulk enrolment change.';
-=======
->>>>>>> remotes/upstream/MOODLE_20_STABLE
 $string['finishenrollingusers'] = 'Finish enrolling users';
 $string['invalidenrolinstance'] = 'Invalid enrolment instance';
 $string['invalidrole'] = 'Invalid role';

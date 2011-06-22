@@ -1467,11 +1467,6 @@ class core_renderer extends renderer_base {
         }
 
         $formstart = null;
-<<<<<<< HEAD
-        // if the item doesn't belong to the current user, the user has permission to rate
-        // and we're within the assessable period
-        if ($rating->user_can_rate()) {
-=======
         //if the item doesn't belong to the current user, the user has permission to rate
         //and we're within the assessable period
         if ($rating->itemuserid!=$USER->id
@@ -1509,7 +1504,6 @@ class core_renderer extends renderer_base {
             $attributes['name'] = 'rateduserid';
             $attributes['value'] = $rating->itemuserid;
             $formstart .= html_writer::empty_tag('input', $attributes);
->>>>>>> remotes/upstream/MOODLE_20_STABLE
 
             $rateurl = $rating->get_rate_url();
             $inputs = $rateurl->params();

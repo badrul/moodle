@@ -3484,11 +3484,6 @@ function forum_rating_permissions($contextid, $component, $ratingarea) {
  * Validates a submitted rating
  * @param array $params submitted data
  *            context => object the context in which the rated items exists [required]
-<<<<<<< HEAD
- *            component => The component for this module - should always be mod_forum [required]
- *            ratingarea => object the context in which the rated items exists [required]
-=======
->>>>>>> remotes/upstream/MOODLE_20_STABLE
  *            itemid => int the ID of the object being rated [required]
  *            scaleid => int the scale from which the user can select a rating. Used for bounds checking. [required]
  *            rating => int the submitted rating [required]
@@ -3499,37 +3494,6 @@ function forum_rating_permissions($contextid, $component, $ratingarea) {
 function forum_rating_validate($params) {
     global $DB, $USER;
 
-<<<<<<< HEAD
-    // Check the component is mod_forum
-    if ($params['component'] != 'mod_forum') {
-        throw new rating_exception('invalidcomponent');
-    }
-
-    // Check the ratingarea is post (the only rating area in forum)
-    if ($params['ratingarea'] != 'post') {
-        throw new rating_exception('invalidratingarea');
-    }
-
-    // Check the rateduserid is not the current user .. you can't rate your own posts
-    if ($params['rateduserid'] == $USER->id) {
-        throw new rating_exception('nopermissiontorate');
-    }
-
-    // Fetch all the related records ... we need to do this anyway to call forum_user_can_see_post
-    $post = $DB->get_record('forum_posts', array('id' => $params['itemid'], 'userid' => $params['rateduserid']), '*', MUST_EXIST);
-    $discussion = $DB->get_record('forum_discussions', array('id' => $post->discussion), '*', MUST_EXIST);
-    $forum = $DB->get_record('forum', array('id' => $discussion->forum), '*', MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $forum->course), '*', MUST_EXIST);
-    $cm = get_coursemodule_from_instance('forum', $forum->id, $course->id , false, MUST_EXIST);
-    $context = get_context_instance(CONTEXT_MODULE, $cm->id);
-
-    // Make sure the context provided is the context of the forum
-    if ($context->id != $params['context']->id) {
-        throw new rating_exception('invalidcontext');
-    }
-
-    if ($forum->scale != $params['scaleid']) {
-=======
     if (!array_key_exists('itemid', $params)
             || !array_key_exists('context', $params)
             || !array_key_exists('rateduserid', $params)
@@ -3549,18 +3513,10 @@ function forum_rating_validate($params) {
     }
 
     if ($info->scale != $params['scaleid']) {
->>>>>>> remotes/upstream/MOODLE_20_STABLE
         //the scale being submitted doesnt match the one in the database
         throw new rating_exception('invalidscaleid');
     }
 
-<<<<<<< HEAD
-    // check the item we're rating was created in the assessable time window
-    if (!empty($forum->assesstimestart) && !empty($forum->assesstimefinish)) {
-        if ($post->created < $forum->assesstimestart || $post->created > $forum->assesstimefinish) {
-            throw new rating_exception('notavailable');
-        }
-=======
     if ($info->userid == $USER->id) {
         //user is attempting to rate their own post
         throw new rating_exception('nopermissiontorate');
@@ -3569,7 +3525,6 @@ function forum_rating_validate($params) {
     if ($info->userid != $params['rateduserid']) {
         //supplied user ID doesnt match the user ID from the database
         throw new rating_exception('invaliduserid');
->>>>>>> remotes/upstream/MOODLE_20_STABLE
     }
 
     //check that the submitted rating is valid for the scale
@@ -3580,15 +3535,9 @@ function forum_rating_validate($params) {
     }
 
     // upper limit
-<<<<<<< HEAD
-    if ($forum->scale < 0) {
-        //its a custom scale
-        $scalerecord = $DB->get_record('scale', array('id' => -$forum->scale));
-=======
     if ($info->scale < 0) {
         //its a custom scale
         $scalerecord = $DB->get_record('scale', array('id' => -$params['scaleid']));
->>>>>>> remotes/upstream/MOODLE_20_STABLE
         if ($scalerecord) {
             $scalearray = explode(',', $scalerecord->scale);
             if ($params['rating'] > count($scalearray)) {
@@ -3597,24 +3546,11 @@ function forum_rating_validate($params) {
         } else {
             throw new rating_exception('invalidscaleid');
         }
-<<<<<<< HEAD
-    } else if ($params['rating'] > $forum->scale) {
-=======
     } else if ($params['rating'] > $info->scale) {
->>>>>>> remotes/upstream/MOODLE_20_STABLE
         //if its numeric and submitted rating is above maximum
         throw new rating_exception('invalidnum');
     }
 
-<<<<<<< HEAD
-    // Make sure groups allow this user to see the item they're rating
-    if ($discussion->groupid > 0 and $groupmode = groups_get_activity_groupmode($cm, $course)) {   // Groups are being used
-        if (!groups_group_exists($discussion->groupid)) { // Can't find group
-            throw new rating_exception('cannotfindgroup');//something is wrong
-        }
-
-        if (!groups_is_member($discussion->groupid) and !has_capability('moodle/site:accessallgroups', $context)) {
-=======
     //check the item we're rating was created in the assessable time window
     if (!empty($info->assesstimestart) && !empty($info->assesstimefinish)) {
         if ($info->timecreated < $info->assesstimestart || $info->timecreated > $info->assesstimefinish) {
@@ -3646,16 +3582,11 @@ function forum_rating_validate($params) {
         }
 
         if (!groups_is_member($groupid) and !has_capability('moodle/site:accessallgroups', $context)) {
->>>>>>> remotes/upstream/MOODLE_20_STABLE
             // do not allow rating of posts from other groups when in SEPARATEGROUPS or VISIBLEGROUPS
             throw new rating_exception('notmemberofgroup');
         }
     }
 
-<<<<<<< HEAD
-    // perform some final capability checks
-    if (!forum_user_can_see_post($forum, $discussion, $post, $USER, $cm)) {
-=======
     //need to load the full objects here as ajax scripts don't like
     //the debugging messages produced by forum_user_can_see_post() if you just supply IDs
     if (!$forum = $DB->get_record('forum',array('id'=>$forumid))) {
@@ -3670,7 +3601,6 @@ function forum_rating_validate($params) {
 
     //perform some final capability checks
     if( !forum_user_can_see_post($forum, $discussion, $post, $USER, $cm)) {
->>>>>>> remotes/upstream/MOODLE_20_STABLE
         throw new rating_exception('nopermissiontorate');
     }
 
@@ -5546,10 +5476,6 @@ function forum_print_discussion($course, $cm, $forum, $discussion, $post, $mode,
         $ratingoptions = new stdClass;
         $ratingoptions->context = $modcontext;
         $ratingoptions->component = 'mod_forum';
-<<<<<<< HEAD
-        $ratingoptions->ratingarea = 'post';
-=======
->>>>>>> remotes/upstream/MOODLE_20_STABLE
         $ratingoptions->items = $posts;
         $ratingoptions->aggregate = $forum->assessed;//the aggregation method
         $ratingoptions->scaleid = $forum->scale;

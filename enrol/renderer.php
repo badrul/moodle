@@ -706,8 +706,6 @@ class course_enrolment_users_table extends course_enrolment_table {
     protected static $sortablefields = array('firstname', 'lastname', 'email', 'lastaccess');
 
     /**
-<<<<<<< HEAD
-=======
      * Returns a button to enrol cohorts or thier users
      *
      * @staticvar int $count
@@ -853,7 +851,6 @@ class course_enrolment_users_table extends course_enrolment_table {
         return null;
     }
     /**
->>>>>>> remotes/upstream/MOODLE_20_STABLE
      * Gets the enrolment type filter control for this table
      *
      * @return single_select

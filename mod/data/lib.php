@@ -527,17 +527,10 @@ function data_generate_default_template(&$data, $template, $recordid=0, $form=fa
             $cell->attributes['class'] = 'controls';
             $table->data[] = new html_table_row(array($cell));
         } else if ($template == 'asearchtemplate') {
-<<<<<<< HEAD
-            $row = new html_table_row(array(get_string('authorfirstname', 'data').': ', '##firstname##'));
-            $row->attributes['class'] = 'searchcontrols';
-            $table->data[] = $row;
-            $row = new html_table_row(array(get_string('authorlastname', 'data').': ', '##lastname##'));
-=======
             $row = new html_table_row(get_string('authorfirstname', 'data').': ', '##firstname##');
             $row->attributes['class'] = 'searchcontrols';
             $table->data[] = $row;
             $row = new html_table_row(get_string('authorlastname', 'data').': ', '##lastname##');
->>>>>>> remotes/upstream/MOODLE_20_STABLE
             $row->attributes['class'] = 'searchcontrols';
             $table->data[] = $row;
         }
@@ -1420,24 +1413,6 @@ function data_rating_permissions($contextid, $component, $ratingarea) {
 function data_rating_validate($params) {
     global $DB, $USER;
 
-<<<<<<< HEAD
-    // Check the component is mod_data
-    if ($params['component'] != 'mod_data') {
-        throw new rating_exception('invalidcomponent');
-    }
-
-    // Check the ratingarea is entry (the only rating area in data module)
-    if ($params['ratingarea'] != 'entry') {
-        throw new rating_exception('invalidratingarea');
-    }
-
-    // Check the rateduserid is not the current user .. you can't rate your own entries
-    if ($params['rateduserid'] == $USER->id) {
-        throw new rating_exception('nopermissiontorate');
-    }
-
-    $datasql = "SELECT d.id as dataid, d.scale, d.course, r.userid as userid, d.approval, r.approved, r.timecreated, d.assesstimestart, d.assesstimefinish, r.groupid
-=======
     if (!array_key_exists('itemid', $params)
             || !array_key_exists('context', $params)
             || !array_key_exists('rateduserid', $params)
@@ -1446,7 +1421,6 @@ function data_rating_validate($params) {
     }
 
     $datasql = "SELECT d.id as did, d.scale, d.course, r.userid as userid, d.approval, r.approved, r.timecreated, d.assesstimestart, d.assesstimefinish, r.groupid
->>>>>>> remotes/upstream/MOODLE_20_STABLE
                   FROM {data_records} r
                   JOIN {data} d ON r.dataid = d.id
                  WHERE r.id = :itemid";
@@ -1461,8 +1435,6 @@ function data_rating_validate($params) {
         throw new rating_exception('invalidscaleid');
     }
 
-<<<<<<< HEAD
-=======
     if ($info->userid == $USER->id) {
         //user is attempting to rate their own glossary entry
         throw new rating_exception('nopermissiontorate');
@@ -1473,7 +1445,6 @@ function data_rating_validate($params) {
         throw new rating_exception('invaliduserid');
     }
 
->>>>>>> remotes/upstream/MOODLE_20_STABLE
     //check that the submitted rating is valid for the scale
 
     // lower limit
@@ -1484,11 +1455,7 @@ function data_rating_validate($params) {
     // upper limit
     if ($info->scale < 0) {
         //its a custom scale
-<<<<<<< HEAD
-        $scalerecord = $DB->get_record('scale', array('id' => -$info->scale));
-=======
         $scalerecord = $DB->get_record('scale', array('id' => -$params['scaleid']));
->>>>>>> remotes/upstream/MOODLE_20_STABLE
         if ($scalerecord) {
             $scalearray = explode(',', $scalerecord->scale);
             if ($params['rating'] > count($scalearray)) {
@@ -1507,25 +1474,13 @@ function data_rating_validate($params) {
         throw new rating_exception('nopermissiontorate');
     }
 
-<<<<<<< HEAD
-    // check the item we're rating was created in the assessable time window
-=======
     //check the item we're rating was created in the assessable time window
->>>>>>> remotes/upstream/MOODLE_20_STABLE
     if (!empty($info->assesstimestart) && !empty($info->assesstimefinish)) {
         if ($info->timecreated < $info->assesstimestart || $info->timecreated > $info->assesstimefinish) {
             throw new rating_exception('notavailable');
         }
     }
 
-<<<<<<< HEAD
-    $course = $DB->get_record('course', array('id'=>$info->course), '*', MUST_EXIST);
-    $cm = get_coursemodule_from_instance('data', $info->dataid, $course->id, false, MUST_EXIST);
-    $context = get_context_instance(CONTEXT_MODULE, $cm->id, MUST_EXIST);
-
-    // if the supplied context doesnt match the item's context
-    if ($context->id != $params['context']->id) {
-=======
     $dataid = $info->did;
     $groupid = $info->groupid;
     $courseid = $info->course;
@@ -1538,16 +1493,11 @@ function data_rating_validate($params) {
 
     //if the supplied context doesnt match the item's context
     if (empty($context) || $context->id != $params['context']->id) {
->>>>>>> remotes/upstream/MOODLE_20_STABLE
         throw new rating_exception('invalidcontext');
     }
 
     // Make sure groups allow this user to see the item they're rating
-<<<<<<< HEAD
-    $groupid = $info->groupid;
-=======
     $course = $DB->get_record('course', array('id'=>$courseid), '*', MUST_EXIST);
->>>>>>> remotes/upstream/MOODLE_20_STABLE
     if ($groupid > 0 and $groupmode = groups_get_activity_groupmode($cm, $course)) {   // Groups are being used
         if (!groups_group_exists($groupid)) { // Can't find group
             throw new rating_exception('cannotfindgroup');//something is wrong

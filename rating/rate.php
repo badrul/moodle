@@ -27,16 +27,6 @@
  */
 
 require_once('../config.php');
-<<<<<<< HEAD
-require_once($CFG->dirroot.'/rating/lib.php');
-
-$contextid   = required_param('contextid', PARAM_INT);
-$component   = required_param('component', PARAM_ALPHAEXT);
-$ratingarea  = required_param('ratingarea', PARAM_ALPHANUMEXT);
-$itemid      = required_param('itemid', PARAM_INT);
-$scaleid     = required_param('scaleid', PARAM_INT);
-$userrating  = required_param('rating', PARAM_INT);
-=======
 require_once('lib.php');
 
 $contextid = required_param('contextid', PARAM_INT);
@@ -44,7 +34,6 @@ $component = required_param('component', PARAM_ALPHAEXT);
 $itemid = required_param('itemid', PARAM_INT);
 $scaleid = required_param('scaleid', PARAM_INT);
 $userrating = required_param('rating', PARAM_INT);
->>>>>>> remotes/upstream/MOODLE_20_STABLE
 $rateduserid = required_param('rateduserid', PARAM_INT);//which user is being rated. Required to update their grade
 $returnurl   = required_param('returnurl', PARAM_LOCALURL);//required for non-ajax requests
 
@@ -55,11 +44,7 @@ require_login($course, false, $cm);
 
 $contextid = null;//now we have a context object throw away the id from the user
 $PAGE->set_context($context);
-<<<<<<< HEAD
-$PAGE->set_url('/rating/rate.php', array('contextid' => $context->id));
-=======
 $PAGE->set_url('/rating/rate.php', array('contextid'=>$context->id));
->>>>>>> remotes/upstream/MOODLE_20_STABLE
 
 if (!confirm_sesskey() || !has_capability('moodle/rating:rate',$context)) {
     echo $OUTPUT->header();
@@ -72,11 +57,7 @@ $rm = new rating_manager();
 
 //check the module rating permissions
 //doing this check here rather than within rating_manager::get_ratings() so we can return a json error response
-<<<<<<< HEAD
-$pluginpermissionsarray = $rm->get_plugin_permissions_array($context->id, $component, $ratingarea);
-=======
 $pluginpermissionsarray = $rm->get_plugin_permissions_array($context->id, $component);
->>>>>>> remotes/upstream/MOODLE_20_STABLE
 
 if (!$pluginpermissionsarray['rate']) {
     $result->error = get_string('ratepermissiondenied', 'rating');
@@ -84,17 +65,6 @@ if (!$pluginpermissionsarray['rate']) {
     die();
 } else {
     $params = array(
-<<<<<<< HEAD
-        'context'     => $context,
-        'component'   => $component,
-        'ratingarea'  => $ratingarea,
-        'itemid'      => $itemid,
-        'scaleid'     => $scaleid,
-        'rating'      => $userrating,
-        'rateduserid' => $rateduserid
-    );
-    if (!$rm->check_rating_is_valid($params)) {
-=======
         'context' => $context,
         'itemid' => $itemid,
         'scaleid' => $scaleid,
@@ -102,7 +72,6 @@ if (!$pluginpermissionsarray['rate']) {
         'rateduserid' => $rateduserid);
 
     if (!$rm->check_rating_is_valid($component, $params)) {
->>>>>>> remotes/upstream/MOODLE_20_STABLE
         echo $OUTPUT->header();
         echo get_string('ratinginvalid', 'rating');
         echo $OUTPUT->footer();
@@ -114,10 +83,6 @@ if ($userrating != RATING_UNSET_RATING) {
     $ratingoptions = new stdClass;
     $ratingoptions->context = $context;
     $ratingoptions->component = $component;
-<<<<<<< HEAD
-    $ratingoptions->ratingarea = $ratingarea;
-=======
->>>>>>> remotes/upstream/MOODLE_20_STABLE
     $ratingoptions->itemid  = $itemid;
     $ratingoptions->scaleid = $scaleid;
     $ratingoptions->userid  = $USER->id;
@@ -128,10 +93,6 @@ if ($userrating != RATING_UNSET_RATING) {
     $options = new stdClass;
     $options->contextid = $context->id;
     $options->component = $component;
-<<<<<<< HEAD
-    $options->ratingarea = $ratingarea;
-=======
->>>>>>> remotes/upstream/MOODLE_20_STABLE
     $options->userid = $USER->id;
     $options->itemid = $itemid;
 

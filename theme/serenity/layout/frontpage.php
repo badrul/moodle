@@ -55,11 +55,7 @@ echo $OUTPUT->doctype() ?>
         </div>
     </div>
 <?php if ($hascustommenu) { ?>
-<<<<<<< HEAD
- 	<div id="custommenu"><?php echo $custommenu; ?></div>
-=======
      <div id="custommenu"><?php echo $custommenu; ?></div>
->>>>>>> remotes/upstream/MOODLE_20_STABLE
 <?php } ?>
 <!-- END OF HEADER -->
 

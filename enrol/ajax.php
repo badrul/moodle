@@ -101,8 +101,6 @@ switch ($action) {
         }
         $outcome->success = true;
         break;
-<<<<<<< HEAD
-=======
 
     case 'enrol':
         $enrolid = required_param('enrolid', PARAM_INT);
@@ -154,7 +152,6 @@ switch ($action) {
         $outcome->success = true;
         break;
 
->>>>>>> remotes/upstream/MOODLE_20_STABLE
     default:
         throw new enrol_ajax_exception('unknowajaxaction');
 }

@@ -1285,21 +1285,6 @@ function upgrade_language_pack($lang='') {
 
     require_once($CFG->libdir.'/componentlib.class.php');
 
-<<<<<<< HEAD
-    $installer = new lang_installer($lang);
-    $results = $installer->run();
-    foreach ($results as $langcode => $langstatus) {
-        switch ($langstatus) {
-        case lang_installer::RESULT_DOWNLOADERROR:
-            echo $OUTPUT->notification($langcode . '.zip');
-            break;
-        case lang_installer::RESULT_INSTALLED:
-            echo $OUTPUT->notification(get_string('langpackinstalled', 'admin', $langcode), 'notifysuccess');
-            break;
-        case lang_installer::RESULT_UPTODATE:
-            echo $OUTPUT->notification(get_string('langpackuptodate', 'admin', $langcode), 'notifysuccess');
-            break;
-=======
     if ($cd = new component_installer('http://download.moodle.org', 'langpack/2.0', $lang.'.zip', 'languages.md5', 'lang')) {
         $status = $cd->install(); //returns COMPONENT_(ERROR | UPTODATE | INSTALLED)
 
@@ -1310,7 +1295,6 @@ function upgrade_language_pack($lang='') {
                 }
             }
             echo $OUTPUT->notification(get_string('success'), 'notifysuccess');
->>>>>>> remotes/upstream/MOODLE_20_STABLE
         }
     }
 

@@ -49,13 +49,8 @@ YUI.add('moodle-enrol_manual-quickenrolment', function(Y) {
         ODD  : 'odd',
         EVEN : 'even',
         HIDDEN : 'hidden',
-<<<<<<< HEAD
-        RECOVERGRADES : 'recovergrades',
-        RECOVERGRADESTITLE : 'recovergradestitle',
-=======
         RECOVERGRADESCHECK : 'uep-recovergradescheck',
         RECOVERGRADESCHECKTITLE : 'uep-recovergradeschecktitle',
->>>>>>> remotes/upstream/MOODLE_20_STABLE
         SEARCHOPTIONS : 'uep-searchoptions',
         COLLAPSIBLEHEADING : 'collapsibleheading',
         COLLAPSIBLEAREA : 'collapsiblearea',
@@ -79,33 +74,6 @@ YUI.add('moodle-enrol_manual-quickenrolment', function(Y) {
         _loadingNode : null,
         _escCloseEvent : null,
         initializer : function(config) {
-<<<<<<< HEAD
-            var recovergrades = null;
-            if (this.get(UEP.DISABLEGRADEHISTORY) != true) {
-                recovergrades = create('<div class="'+CSS.ENROLMENTOPTION+' '+CSS.RECOVERGRADES+'"></div>')
-                    .append(create('<label class="'+CSS.RECOVERGRADESTITLE+'" for="'+CSS.RECOVERGRADES+'">'+M.str.enrol.recovergrades+'</label>'))
-                    .append(create('<input type="checkbox" id="'+CSS.RECOVERGRADES+'" name="'+CSS.RECOVERGRADES+'" />'))
-            }
-
-            this.set(UEP.BASE, create('<div class="'+CSS.PANEL+' '+CSS.HIDDEN+'"></div>')
-                .append(create('<div class="'+CSS.WRAP+'"></div>')
-                    .append(create('<div class="'+CSS.HEADER+' header"></div>')
-                        .append(create('<div class="'+CSS.CLOSE+'"></div>'))
-                        .append(create('<h2>'+M.str.enrol.enrolusers+'</h2>')))
-                    .append(create('<div class="'+CSS.CONTENT+'"></div>')
-                        .append(create('<div class="'+CSS.SEARCHCONTROLS+'"></div>')
-                            .append(create('<div class="'+CSS.ENROLMENTOPTION+' '+CSS.ROLE+'">'+M.str.role.assignroles+'</div>')
-                                    .append(create('<select><option value="">'+M.str.enrol.none+'</option></select>'))
-                            )
-                            .append(create('<div class="'+CSS.SEARCHOPTIONS+'"></div>')
-                                .append(create('<div class="'+CSS.COLLAPSIBLEHEADING+'"><img alt="" />'+M.str.enrol.enrolmentoptions+'</div>'))
-                                .append(create('<div class="'+CSS.COLLAPSIBLEAREA+' '+CSS.HIDDEN+'"></div>')
-                                    .append(recovergrades)
-                                    .append(create('<div class="'+CSS.ENROLMENTOPTION+' '+CSS.STARTDATE+'">'+M.str.moodle.startingfrom+'</div>')
-                                        .append(create('<select></select>')))
-                                    .append(create('<div class="'+CSS.ENROLMENTOPTION+' '+CSS.DURATION+'">'+M.str.enrol.enrolperiod+'</div>')
-                                        .append(create('<select><option value="0" selected="selected">'+M.str.enrol.unlimitedduration+'</option></select>')))
-=======
             recovergradescheckbox = null;
             if (this.get(UEP.DISABLEGRADEHISTORY) != true) {
                 recovergradescheckbox = Y.Node.create('<div class="'+CSS.RECOVERGRADESCHECK+'"><input type="checkbox" id="recovergrades" name="recovergrades" /><span class="'+CSS.RECOVERGRADESCHECKTITLE+'"><label for="recovergrades">'+M.str.enrol.recovergrades+'</label></span></div>');
@@ -129,7 +97,6 @@ YUI.add('moodle-enrol_manual-quickenrolment', function(Y) {
                                         .append(Y.Node.create('<select></select>')))
                                     .append(Y.Node.create('<div class="'+CSS.SEARCHOPTION+' '+CSS.DURATION+'">'+M.str.enrol.enrolperiod+'</div>')
                                         .append(Y.Node.create('<select><option value="0" selected="selected">'+M.str.enrol.unlimitedduration+'</option></select>')))
->>>>>>> remotes/upstream/MOODLE_20_STABLE
                                 )
                             )
                         )
@@ -409,17 +376,10 @@ YUI.add('moodle-enrol_manual-quickenrolment', function(Y) {
             params['enrolid'] = args.enrolid;
             params['sesskey'] = M.cfg.sesskey;
             params['action'] = 'enrol';
-<<<<<<< HEAD
-            params['role'] = this.get(UEP.BASE).one('.'+CSS.ENROLMENTOPTION+'.'+CSS.ROLE+' select').get('value');
-            params['startdate'] = this.get(UEP.BASE).one('.'+CSS.ENROLMENTOPTION+'.'+CSS.STARTDATE+' select').get('value');
-            params['duration'] = this.get(UEP.BASE).one('.'+CSS.ENROLMENTOPTION+'.'+CSS.DURATION+' select').get('value');
-            params['recovergrades'] = this.get(UEP.BASE).one('#'+CSS.RECOVERGRADES).get('checked')?1:0;
-=======
             params['role'] = this.get(UEP.BASE).one('.'+CSS.SEARCHOPTION+'.'+CSS.ROLE+' select').get('value');
             params['startdate'] = this.get(UEP.BASE).one('.'+CSS.SEARCHOPTION+'.'+CSS.STARTDATE+' select').get('value');
             params['duration'] = this.get(UEP.BASE).one('.'+CSS.SEARCHOPTION+'.'+CSS.DURATION+' select').get('value');
             params['recovergrades'] = this.get(UEP.BASE).one('#recovergrades').get('checked')?1:0;
->>>>>>> remotes/upstream/MOODLE_20_STABLE
 
             Y.io(M.cfg.wwwroot+this.get(UEP.AJAXURL), {
                 method:'POST',
